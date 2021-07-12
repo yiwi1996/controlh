@@ -57,6 +57,7 @@ class RemisionController{
         
         include_once '../view/remision/create.php';
     }
+
     public function ciudad(){
         
         $obj=new RemisionModel();
@@ -72,11 +73,12 @@ class RemisionController{
         }
         
     }
+
     
     public function postCreate(){
         $obj=new RemisionModel();
         
-        $id_remision=$obj->autoincrement("remision","id_remision");
+       
         $numero=$_POST['numero'];
         $fecha=$_POST['Fecha'];
         $hora=$_POST['hora'];
@@ -108,12 +110,19 @@ class RemisionController{
         }else{
             $definitivo=0;
         }
+
+      
         
-        
-        $sql="INSERT INTO remision VALUES ($id_remision,$numero,'".$fecha."','".$hora."','".$temporal."','".$definitivo."','".$fecha_devo."',$despachado,$transportado,$motivo,$area,'".$empresa."','".$direccion."','".$funcionario."',$departamento,$ciudad,$activo,'".$serie."','".$descripcion."',$estado,'".$observacion."')";
-        
-    
+     for ($i=0; $i < count($activo) ; $i++) { 
+
+        $id_remision=$obj->autoincrement("remision","id_remision");
+          
+        $sql="INSERT INTO remision VALUES ($id_remision,$numero,'".$fecha."','".$hora."','".$temporal."','".$definitivo."','".$fecha_devo."',$despachado,$transportado,$motivo,$area,'".$empresa."','".$direccion."','".$funcionario."',$departamento,$ciudad,'".$activo[$i]."','".$serie."','".$descripcion[$i]."',$estado,'".$observacion."')";
+
         $insertar=$obj->insert($sql);
+    }
+    
+       
         if($insertar){
             
 
@@ -194,7 +203,7 @@ class RemisionController{
                 <label>Activo Fijo</label>
                 <div id='activo'></div>
 
-                <input type='text' readonly name='activo'  value='".$re['activo_fijo']."' id='fijo' class='form-control '>
+                <input type='text' readonly name='activo[]'  value='".$re['activo_fijo']."' id='fijo' class='form-control '>
                 
                 </div> 
 
@@ -203,7 +212,7 @@ class RemisionController{
                 <label>Descripcion</label>
                 <div id='descripcion'></div>
 
-                <input type='text'readonly name='descripcion'  value='".$re['desc_equipo']."' id='descrip' class='form-control '>
+                <input type='text'readonly name='descripcion[]'  value='".$re['desc_equipo']."' id='descrip' class='form-control '>
                 
                 </div>
 

@@ -104,9 +104,13 @@ class EquipoController{
             
             $sql="SELECT e.id,e.num_factura,e.serial,e.tipo_equipo,e.activo_fijo,t.desc_tipo_equipo,e.desc_equipo,m.desc_marca,e.caracteristicas,e.accesorios,e.usuario,p.nombre,e.fecha_compra,e.garantia,e.Fecha_fin_garantia,e.valor,es.nombre_estado FROM equipos e,tipo_equipo t,marcas m,proveedor p,estado es,co c WHERE  t.id=e.tipo_equipo AND  m.id=e.id_marca AND p.nit=e.nit AND es.id_estado=e.id_estado AND c.id=e.co AND e.id=$id";
 
-           
             $equipo=$obj->insert($sql);
-            $this->crearPDF($id,$equipo);
+
+            $sql="SELECT p.nombre,p.direccion,p.barrio,p.contacto,p.telefono FROM equipos e,proveedor p WHERE  p.nit=e.nit AND e.id=$id";
+
+            $proveedor=$obj->insert($sql);
+            
+            $this->crearPDF($id,$equipo,$proveedor);
             
         }
     }
@@ -222,11 +226,12 @@ class EquipoController{
         
     }
     
-    public function crearPDF($id,$equipo){  
+    public function crearPDF($id,$equipo,$proveedor){  
         
         $dompdf = new Dompdf();
 
         $equi=mysqli_fetch_assoc($equipo);
+        $prov=mysqli_fetch_assoc($proveedor);
         include_once '../controller/dompdf/plantilla/equipo.php';
        
                 

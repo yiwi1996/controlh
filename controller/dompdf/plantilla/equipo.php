@@ -63,15 +63,15 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
     $html.='<tbody>';
         $html.='<tr>';
             $html.='<td>';
-                $html.='Proveedor :';
+                $html.='Proveedor :'.$prov['nombre'];
             $html.='</td>';
 
             $html.='<td>';
-                $html.='Dirección :';
+                $html.='Dirección :'.$prov['direccion'];
             $html.='</td>';
 
             $html.='<td>';
-                $html.='Barrio :';
+                $html.='Barrio :'.$prov['barrio'];
             $html.='</td>';
 
         $html.='</tr>';
@@ -92,11 +92,11 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
 
         $html.='<tr>';
             $html.='<td>';
-                $html.='Contacto :';
+                $html.='Contacto :'.$prov['contacto'];
             $html.='</td>';
 
             $html.='<td>';
-                $html.='Telefono :';
+                $html.='Telefono :'.$prov['telefono'];
             $html.='</td>';
 
             $html.='<td>';

@@ -59,6 +59,30 @@ class IntervencionController{
             redirect(getUrl('Intervencion','Intervencion','listar'));
         }
     }
+    public function crearPDF($id,$equipo){  
+        
+        $dompdf = new Dompdf();
+
+        $equi=mysqli_fetch_assoc($equipo);
+        include_once '../controller/dompdf/plantilla/equipo.php';
+       
+                
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+        
+        
+        
+        $ruta="../files/equipo/".$id;
+        if(!is_dir($ruta)){
+            mkdir($ruta,0777,true);
+        }
+        $titulo  = utf8_decode($id."equipo.pdf");//Nombre 
+        
+        $output = $dompdf->output();
+        file_put_contents('../files/equipo/'.$id.'/'.$titulo, $output);
+        
+        redirect(getUrl('Equipo','Equipo','listar'));
+    }
     
     public function listar(){
         
