@@ -8,14 +8,22 @@ use Dompdf\Dompdf;
 
 class RemisionController{
     public function pdf(){
+        $obj=new RemisionModel();
+
         $id_remision=$_GET['id_remision'];
+
+        $sql="SELECT num_pdf FROM remision WHERE id_remision=$id_remision";
+
+        $result=$obj->consult($sql);
+        $resul=mysqli_fetch_assoc($result);
+        $num_pdf=$resul['num_pdf'];
 
         echo '<div class="modal-header" style="width: 100% ;">
         <h5 class="modal-title" id="exampleModalLabel">Detalle de Remicion</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-         </div><object tipe="application/pdf" data="../files/'.  $id_remision.'/'.$id_remision.'remision.pdf" " width="100%"     height="700px"></object> <div class="modal-footer">
+         </div><object tipe="application/pdf" data="../files/'.  $num_pdf.'/'.$num_pdf.'remision.pdf" " width="100%"     height="700px"></object> <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
         </div>';
 
@@ -99,6 +107,7 @@ class RemisionController{
         $descripcion=$_POST['descripcion'];
         $estado=$_POST['estado'];
         $observacion=$_POST['observacion'];
+        $num_pdf=$obj->autoincrement("remision","id_remision");
         
         if($temporal!=NULL){
             $temporal=1;
@@ -111,15 +120,19 @@ class RemisionController{
             $definitivo=0;
         }
 
-      
+      $equipo=array();
         
      for ($i=0; $i < count($activo) ; $i++) { 
 
         $id_remision=$obj->autoincrement("remision","id_remision");
           
-        $sql="INSERT INTO remision VALUES ($id_remision,$numero,'".$fecha."','".$hora."','".$temporal."','".$definitivo."','".$fecha_devo."',$despachado,$transportado,$motivo,$area,'".$empresa."','".$direccion."','".$funcionario."',$departamento,$ciudad,'".$activo[$i]."','".$serie."','".$descripcion[$i]."',$estado,'".$observacion."')";
+        $sql="INSERT INTO remision VALUES ($id_remision,$numero,'".$fecha."','".$hora."','".$temporal."','".$definitivo."','".$fecha_devo."',$despachado,$transportado,$motivo,$area,'".$empresa."','".$direccion."','".$funcionario."',$departamento,$ciudad,'".$activo[$i]."','".$serie[$i]."','".$descripcion[$i]."',$estado,'".$observacion."',$num_pdf)";
 
         $insertar=$obj->insert($sql);
+
+        $sql="SELECT r.serie_remi,r.descripcion_remi,r.activo_remi,e.nombre_estado FROM estado e,remision r WHERE r.id_estado=e.id_estado AND r.id_remision=$id_remision";
+
+        $equipo[$i]=$obj->insert($sql);
     }
     
        
@@ -131,11 +144,11 @@ class RemisionController{
     
             $resultado=$obj->insert($sql);
 
-            $this->crearPDF($resultado,$id_remision);
+            $this->crearPDF($resultado,$id_remision,$equipo,$num_pdf);
         }
     }
     
-    public function crearPDF($resultado,$id_remision){  
+    public function crearPDF($resultado,$id_remision,$equipo,$num_pdf){  
        
         if($resultado){
 
@@ -150,14 +163,14 @@ class RemisionController{
 
         
         
-        $ruta="../files/".$id_remision;
+        $ruta="../files/".$num_pdf;
         if(!is_dir($ruta)){
             mkdir($ruta,0777,true);
         }
-        $titulo  = utf8_decode($id_remision."remision.pdf");//Nombre 
+        $titulo  = utf8_decode($num_pdf."remision.pdf");//Nombre 
 
         $output = $dompdf->output();
-        file_put_contents('../files/'.$id_remision.'/'.$titulo, $output);
+        file_put_contents('../files/'.$num_pdf.'/'.$titulo, $output);
 
         redirect(getUrl('Remision','Remision','listar'));
         }

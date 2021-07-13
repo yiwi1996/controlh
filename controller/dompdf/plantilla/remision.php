@@ -340,24 +340,28 @@ $html.='<table style="width:100%;" class="tabla">';
     $html.='<thead>';
 
     $html.='<tbody>'; 
-        $html.='<tr>';
-            $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
-                $html.=$activo_remi;
-            $html .='</td>';
+    foreach ($equipo as $equi ) {
+        foreach ($equi as $equ ) {
+            $html.='<tr>';
+                $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
+                    $html.=$equ['activo_remi'];
+                $html .='</td>';
 
-            $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
-                $html.=$serie_remi;
-            $html.='</td>';
+                $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
+                    $html.=$equ['serie_remi'];
+                $html.='</td>';
 
-            $html.=' <td class="borde tabla1" colspan="3" width="27%" style="text-align:center;">';
-                $html.=$descripcion_remi;
-            $html.='</td>';
+                $html.=' <td class="borde tabla1" colspan="3" width="27%" style="text-align:center;">';
+                    $html.=$equ['descripcion_remi'];
+                $html.='</td>';
 
-            $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
-                $html.=$nombre_estado;
-            $html.='</td>';
+                $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
+                    $html.=$equ['nombre_estado'];
+                $html.='</td>';
 
-        $html.='</tr>';
+            $html.='</tr>';
+        }
+    }
 
     $html.='</tbody>';  
 $html.='</table>';
@@ -620,24 +624,28 @@ $html.='<table style="width:100%;" class="tabla">';
     $html.='<thead>';
 
     $html.='<tbody>'; 
-        $html.='<tr>';
-            $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
-                $html.=$activo_remi;
-            $html .='</td>';
+    foreach ($equipo as $equi ) {
+        foreach ($equi as $equ ) {
+            $html.='<tr>';
+                $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
+                    $html.=$equ['activo_remi'];
+                $html .='</td>';
 
-            $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
-                $html.=$serie_remi;
-            $html.='</td>';
+                $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
+                    $html.=$equ['serie_remi'];
+                $html.='</td>';
 
-            $html.=' <td class="borde tabla1" colspan="3" width="27%" style="text-align:center;">';
-                $html.=$descripcion_remi;
-            $html.='</td>';
+                $html.=' <td class="borde tabla1" colspan="3" width="27%" style="text-align:center;">';
+                    $html.=$equ['descripcion_remi'];
+                $html.='</td>';
 
-            $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
-                $html.=$nombre_estado;
-            $html.='</td>';
+                $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';
+                    $html.=$equ['nombre_estado'];
+                $html.='</td>';
 
-        $html.='</tr>';
+            $html.='</tr>';
+        }
+    }
 
     $html.='</tbody>';  
 $html.='</table>';
