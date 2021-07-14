@@ -28,12 +28,22 @@ class IntervencionController{
         $realizado=$_POST['realizado'];
         $valor=$_POST['valor'];
         
-        $sql="SELECT num_intervencion FROM equipos WHERE serial='".$serial."'";
+        $sql="SELECT * FROM equipos WHERE serial='".$serial."'";
         
         $resul=$obj->consult($sql);
         $resu=mysqli_fetch_assoc($resul);
         $num_intervencion=$resu['num_intervencion'];
+        $id=$resu['id'];
         $num_intervencion=$num_intervencion+1;
+
+
+        $sql="SELECT p.nombre,p.direccion,p.barrio,p.contacto,p.telefono FROM equipos e,proveedor p WHERE  p.nit=e.nit AND e.id=$id";
+
+        $proveedor=$obj->insert($sql);
+
+        $sql="SELECT p.nombre,p.direccion,p.barrio,p.contacto,p.telefono FROM equipos e,proveedor p WHERE  p.nit=e.nit AND e.id=$id";
+
+        $remicion=$obj->insert($sql);
         
        
         if($pre!=NULL){
@@ -56,14 +66,32 @@ class IntervencionController{
 
             $insertar=$obj->update($sql);
 
-            redirect(getUrl('Intervencion','Intervencion','listar'));
+            $sql="SELECT * FROM remision WHERE serie_remi='".$serial."'";
+            $remision=$obj->update($sql);
+
+            $sql="SELECT * FROM intervencion WHERE serial_inter='$serial'";
+         
+            $intervencion=$obj->update($sql);
+
+            $sql="SELECT e.id,e.num_factura,e.serial,e.tipo_equipo,e.activo_fijo,t.desc_tipo_equipo,e.desc_equipo,m.desc_marca,e.caracteristicas,e.accesorios,e.usuario,p.nombre,e.fecha_compra,e.garantia,e.Fecha_fin_garantia,e.valor,es.nombre_estado FROM equipos e,tipo_equipo t,marcas m,proveedor p,estado es,co c WHERE  t.id=e.tipo_equipo AND  m.id=e.id_marca AND p.nit=e.nit AND es.id_estado=e.id_estado AND c.id=e.co AND e.serial='$serial'";
+
+            $equipo=$obj->insert($sql);
+
+
+            $this->crearPDF($id,$equipo,$proveedor,$remision,$intervencion);
+
+            
         }
     }
-    public function crearPDF($id,$equipo){  
+
+    public function crearPDF($id,$equipo,$proveedor,$remision,$intervencion){  
+       
         
         $dompdf = new Dompdf();
 
         $equi=mysqli_fetch_assoc($equipo);
+        $prov=mysqli_fetch_assoc($proveedor);
+        $remi=mysqli_fetch_assoc($remision);
         include_once '../controller/dompdf/plantilla/equipo.php';
        
                 
@@ -81,8 +109,9 @@ class IntervencionController{
         $output = $dompdf->output();
         file_put_contents('../files/equipo/'.$id.'/'.$titulo, $output);
         
-        redirect(getUrl('Equipo','Equipo','listar'));
+        redirect(getUrl('Intervencion','Intervencion','listar'));
     }
+    
     
     public function listar(){
         

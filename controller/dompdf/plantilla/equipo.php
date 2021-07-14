@@ -141,33 +141,42 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
                 $html.='Corr';
             $html.='</center></td>';
         $html.='</tr>';
-
+if($intervencion !=''){
+   
+    foreach ($intervencion as $inter) {
+        
         $html.='<tr>';
             $html.='<td>';
-                $html.='';
+                $html.=$inter['fecha_inter'];
             $html.='</td>';
-
+         
+        if($inter['pre_inter']==1){
+            $html.='<td><center>';
+                $html.='x';
+            $html.='</center></td>';
             $html.='<td>';
-                $html.='';
             $html.='</td>';
-
+        }else{
             $html.='<td>';
-                $html.='';
             $html.='</td>';
-
+            $html.='<td><center>';
+                $html.='x';
+            $html.='</center></td>';
+        }
             $html.='<td colspan="3"  style="width:250px;">';
-                $html.='';
+                $html.=$inter['detalle_inter'];
+            $html.='</td>';
+            $html.='<td>';
+                $html.=$inter['realizado_inter'];
             $html.='</td>';
 
             $html.='<td>';
-                $html.='';
-            $html.='</td>';
-
-            $html.='<td>';
-                $html.='';
+                $html.=$inter['valor_inter'];
             $html.='</td>';
 
         $html.='</tr>';
+    }
+}
     $html.='<tbody>';
 $html.='</table>';
 ?>
