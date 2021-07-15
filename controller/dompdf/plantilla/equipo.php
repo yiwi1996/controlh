@@ -229,4 +229,54 @@ if($remision !=''){
 }
     $html.='</tbody>';
 $html.='</table>';
+
+$html.='<p>5.Registro de Adjudicacion';
+
+$html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;" >';
+    $html.='<tbody>';
+        $html.='<tr>';
+            $html.='<td><center>';
+                $html.='Fecha';
+            $html.='</center></td>';
+
+            $html.='<td  colspan="3"  style="width:250px;"><center>';
+                $html.='Detalle';
+            $html.='</center></td>';
+
+            $html.='<td><center>';
+                $html.='Realizado';
+            $html.='</center></td>';
+
+            $html.='<td><center>';
+                $html.='Valor';
+            $html.='</center></td>';
+
+        $html.='</tr>';
+        
+if($adjudicacion !=''){
+   
+    foreach ($adjudicacion as $adju) {
+        
+        $html.='<tr>';
+            $html.='<td>';
+                $html.=$adju['fecha_entrega'];
+            $html.='</td>';
+       
+            $html.='<td colspan="3"  style="width:250px;">';
+                $html.=$adju['descripcion'];
+            $html.='</td>';
+
+            $html.='<td>';
+                $html.=$empleado['nombre_empleado'];
+            $html.='</td>';
+
+            $html.='<td>';
+                $html.=$adju['valor'];
+            $html.='</td>';
+
+        $html.='</tr>';
+    }
+}
+    $html.='</tbody>';
+$html.='</table>';
 ?>
