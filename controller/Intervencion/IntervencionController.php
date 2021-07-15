@@ -66,7 +66,7 @@ class IntervencionController{
 
             $insertar=$obj->update($sql);
 
-            $sql="SELECT * FROM remision WHERE serie_remi='".$serial."'";
+            $sql="SELECT d.nombre_despa,r.fecha_remi,r.descripcion_remi,e.nombre_estado FROM remision r,estado e, despachado d WHERE d.id_despachado=r.id_despachado and e.id_estado=r.id_estado and serie_remi='".$serial."'";
             $remision=$obj->update($sql);
 
             $sql="SELECT * FROM intervencion WHERE serial_inter='$serial'";
@@ -91,7 +91,7 @@ class IntervencionController{
 
         $equi=mysqli_fetch_assoc($equipo);
         $prov=mysqli_fetch_assoc($proveedor);
-        $remi=mysqli_fetch_assoc($remision);
+       
         include_once '../controller/dompdf/plantilla/equipo.php';
        
                 

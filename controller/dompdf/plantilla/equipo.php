@@ -55,7 +55,7 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
                 $html.='Usuario :'.$equi['usuario'];
             $html.='</td>';
         $html.='</tr>';
-    $html.='<tbody>';
+    $html.='</tbody>';
 $html.='</table>';
 $html.='</br>';
 $html.='<p>2. Adquisición</p>';
@@ -104,7 +104,7 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
             $html.='</td>';
 
         $html.='</tr>';
-    $html.='<tbody>';
+    $html.='</tbody>';
 $html.='</table>';
 $html.='<br>';
 $html.='<p>3.Registro de Intervenciones';
@@ -177,6 +177,56 @@ if($intervencion !=''){
         $html.='</tr>';
     }
 }
+    $html.='</tbody>';
+$html.='</table>';
+
+$html.='<p>4.Registro de Remision';
+
+$html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;" >';
     $html.='<tbody>';
+        $html.='<tr>';
+            $html.='<td><center>';
+                $html.='Fecha';
+            $html.='</center></td>';
+
+            $html.='<td  colspan="3"  style="width:250px;"><center>';
+                $html.='Detalle';
+            $html.='</center></td>';
+
+            $html.='<td><center>';
+                $html.='Realizado';
+            $html.='</center></td>';
+
+            $html.='<td><center>';
+                $html.='Estado';
+            $html.='</center></td>';
+
+        $html.='</tr>';
+        
+if($remision !=''){
+   
+    foreach ($remision as $remi) {
+        
+        $html.='<tr>';
+            $html.='<td>';
+                $html.=$remi['fecha_remi'];
+            $html.='</td>';
+       
+            $html.='<td colspan="3"  style="width:250px;">';
+                $html.=$remi['descripcion_remi'];
+            $html.='</td>';
+
+            $html.='<td>';
+                $html.=$remi['nombre_despa'];
+            $html.='</td>';
+
+            $html.='<td>';
+                $html.=$remi['nombre_estado'];
+            $html.='</td>';
+
+        $html.='</tr>';
+    }
+}
+    $html.='</tbody>';
 $html.='</table>';
 ?>
