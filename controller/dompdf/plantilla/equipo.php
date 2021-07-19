@@ -327,4 +327,7 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
     $html.='</tbody>';
 $html.='</table>';
 }
+$html .= '</head>';
+$html .= '</html>';
+
 ?>

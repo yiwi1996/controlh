@@ -9,26 +9,26 @@ use Dompdf\Dompdf;
 class RemisionController{
     public function pdf(){
         $obj=new RemisionModel();
-
+        
         $id_remision=$_GET['id_remision'];
-
+        
         $sql="SELECT num_pdf FROM remision WHERE id_remision=$id_remision";
-
+        
         $result=$obj->consult($sql);
         $resul=mysqli_fetch_assoc($result);
         $num_pdf=$resul['num_pdf'];
-
+        
         echo '<div class="modal-header" style="width: 100% ;">
         <h5 class="modal-title" id="exampleModalLabel">Detalle de Remicion</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+        <span aria-hidden="true">&times;</span>
         </button>
-         </div><object tipe="application/pdf" data="../files/'.  $num_pdf.'/'.$num_pdf.'remision.pdf" " width="100%"     height="700px"></object> <div class="modal-footer">
+        </div><object tipe="application/pdf" data="../files/'.  $num_pdf.'/'.$num_pdf.'remision.pdf" " width="100%"     height="700px"></object> <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
         </div>';
-
+        
     }
-
+    
     public function getCreate(){
         
         $obj=new RemisionModel();
@@ -48,7 +48,7 @@ class RemisionController{
         
         $sql="SELECT * FROM area ";
         $area=$obj->consult($sql);
-
+        
         $sql="SELECT * FROM estado ";
         $estado=$obj->consult($sql);
         $esta="";
@@ -65,7 +65,7 @@ class RemisionController{
         
         include_once '../view/remision/create.php';
     }
-
+    
     public function ciudad(){
         
         $obj=new RemisionModel();
@@ -81,12 +81,12 @@ class RemisionController{
         }
         
     }
-
+    
     
     public function postCreate(){
         $obj=new RemisionModel();
         
-       
+        
         $numero=$_POST['numero'];
         $fecha=$_POST['Fecha'];
         $hora=$_POST['hora'];
@@ -119,85 +119,113 @@ class RemisionController{
         }else{
             $definitivo=0;
         }
-
-      $equipo1=array();
         
-     for ($i=0; $i < count($activo) ; $i++) { 
+        $equipo1=array();
+        $id=array();
+        
+        for ($i=0; $i < count($activo) ; $i++) { 
+            
+            $id_remision=$obj->autoincrement("remision","id_remision");
+            
+            $sql="INSERT INTO remision VALUES ($id_remision,$numero,'".$fecha."','".$hora."','".$temporal."','".$definitivo."','".$fecha_devo."',$despachado,$transportado,$motivo,$area,'".$empresa."','".$direccion."','".$funcionario."',$departamento,$ciudad,'".$activo[$i]."','".$serie[$i]."','".$descripcion[$i]."',$estado,'".$observacion."',$num_pdf)";
+            
+            $insertar=$obj->insert($sql);
+            
+            $sql="SELECT r.serie_remi,r.descripcion_remi,r.activo_remi,e.nombre_estado FROM estado e,remision r WHERE r.id_estado=e.id_estado AND r.id_remision=$id_remision";
+            
+            $equipo1[$i]=$obj->insert($sql);
+            
+            $sql="SELECT id FROM equipos WHERE serial='".$serie[$i]."'";
+            
+            $equi=$obj->insert($sql);
+            $equi=mysqli_fetch_assoc($equi);
+            $id[$i]=$equi['id'];
 
-        $id_remision=$obj->autoincrement("remision","id_remision");
-          
-        $sql="INSERT INTO remision VALUES ($id_remision,$numero,'".$fecha."','".$hora."','".$temporal."','".$definitivo."','".$fecha_devo."',$despachado,$transportado,$motivo,$area,'".$empresa."','".$direccion."','".$funcionario."',$departamento,$ciudad,'".$activo[$i]."','".$serie[$i]."','".$descripcion[$i]."',$estado,'".$observacion."',$num_pdf)";
+            $sql="SELECT e.id,e.num_factura,e.serial,e.tipo_equipo,e.activo_fijo,t.desc_tipo_equipo,e.desc_equipo,m.desc_marca,e.caracteristicas,e.accesorios,e.usuario,p.nombre,e.fecha_compra,e.garantia,e.Fecha_fin_garantia,e.valor,es.nombre_estado FROM equipos e,tipo_equipo t,marcas m,proveedor p,estado es,co c WHERE  t.id=e.tipo_equipo AND  m.id=e.id_marca AND p.nit=e.nit AND es.id_estado=e.id_estado AND c.id=e.co AND e.serial='".$serie[$i]."'";
 
-        $insertar=$obj->insert($sql);
-
-        $sql="SELECT r.serie_remi,r.descripcion_remi,r.activo_remi,e.nombre_estado FROM estado e,remision r WHERE r.id_estado=e.id_estado AND r.id_remision=$id_remision";
-
-        $equipo1[$i]=$obj->insert($sql);
-    }
-    
-       
+            $equipo=$obj->insert($sql);
+            
+            
+        }
+        
+        
         if($insertar){
             
-
-           $sql="SELECT r.num_remi,r.fecha_remi,r.hora_envio_remi,r.temporal_remi,r.definitivo_remi,r.fecha_devo_remi,r.empresa_remi,r.direccion_remi,r.funcionario_remi,r.activo_remi,r.serie_remi,r.descripcion_remi,r.observacion_remi,d.nombre_despa,t.nombre_transpor,m.nombre_moti,a.nombre_area,de.dep_nombre,c.ciu_nombre,e.nombre_estado FROM remision r,despachado d,transportado t,motivo m,area a,departamento de,ciudad c,estado e WHERE r.id_despachado=d.id_despachado AND r.id_transportado=t.id_transportado AND r.id_motivo=m.id_motivo AND r.id_area=a.id_area AND r.dep_id=de.dep_id AND r.ciu_id=c.ciu_id AND r.id_estado=e.id_estado AND r.id_remision=$id_remision";
-       
-    
+            
+            $sql="SELECT r.num_remi,r.fecha_remi,r.hora_envio_remi,r.temporal_remi,r.definitivo_remi,r.fecha_devo_remi,r.empresa_remi,r.direccion_remi,r.funcionario_remi,r.activo_remi,r.serie_remi,r.descripcion_remi,r.observacion_remi,d.nombre_despa,t.nombre_transpor,m.nombre_moti,a.nombre_area,de.dep_nombre,c.ciu_nombre,e.nombre_estado FROM remision r,despachado d,transportado t,motivo m,area a,departamento de,ciudad c,estado e WHERE r.id_despachado=d.id_despachado AND r.id_transportado=t.id_transportado AND r.id_motivo=m.id_motivo AND r.id_area=a.id_area AND r.dep_id=de.dep_id AND r.ciu_id=c.ciu_id AND r.id_estado=e.id_estado AND r.id_remision=$id_remision";
+            
+            
             $resultado=$obj->insert($sql);
-        
 
-            $this->crearPDF($resultado,$id_remision,$equipo1,$num_pdf);
+         
+            
+            $this->crearPDF($resultado,$id_remision,$equipo1,$num_pdf,$id,$equipo);
         }
     }
     
-    public function crearPDF($resultado,$id_remision,$equipo1,$num_pdf){  
-       
+    public function crearPDF($resultado,$id_remision,$equipo1,$num_pdf,$id,$equipo){  
+        
         if($resultado){
-
             
-        $dompdf = new Dompdf();
-     
-        
-        include_once '../controller/dompdf/plantilla/remision.php';
-        
-        $dompdf->loadHtml($html);
-        $dompdf->render();
-
-        
-        
-        $ruta="../files/".$num_pdf;
-        if(!is_dir($ruta)){
-            mkdir($ruta,0777,true);
-        }
-        $titulo  = utf8_decode($num_pdf."remision.pdf");//Nombre 
-
-        $output = $dompdf->output();
-        file_put_contents('../files/'.$num_pdf.'/'.$titulo, $output);
-       
-        }
-
-        if($equipo){     
-        
-            include_once '../controller/dompdf/plantilla/equipo.php';
+            
+            $dompdf = new Dompdf();
+            
+            
+            include_once '../controller/dompdf/plantilla/remision.php';
             
             $dompdf->loadHtml($html);
             $dompdf->render();
-    
             
             
-            $ruta="../files/".$id;
+            
+            $ruta="../files/".$num_pdf;
             if(!is_dir($ruta)){
                 mkdir($ruta,0777,true);
             }
-            $titulo  = utf8_decode($id."equipo.pdf");//Nombre 
-    
-            $output = $dompdf->output();
-            file_put_contents('../files/'.$id.'/'.$titulo, $output);
-    
+            $titulo  = utf8_decode($num_pdf."remision.pdf");//Nombre 
             
-         
+            $output = $dompdf->output();
+            file_put_contents('../files/'.$num_pdf.'/'.$titulo, $output);
+            
         }
-        include_once '../view/remision/listar.php';
+        $this->crearPDFequipo($id,$resultado,$equipo);
+        
     }
+    
+    public function crearPDFequipo($id,$remision,$equipo){ 
+        $dompdf = new Dompdf();
+        
+        $equi=mysqli_fetch_assoc($equipo);
+        if($id){ 
+            
+       echo count($id);
+            for ($i=0; $i < count($id) ; $i++) { 
+                
+                $id=$id[$i];
+                echo $id;
+                include_once '../controller/dompdf/plantilla/equipo.php';
+               
+                 $dompdf->loadHtml($html);
+                 $dompdf->render();
+             
+                
+                
+             
+                $ruta="../files/equipo/".$id;
+             
+                if(!is_dir($ruta)){
+                    mkdir($ruta,0777,true);
+                }
+                $titulo  = utf8_decode($id."equipo.pdf");//Nombre 
+                
+                $output = $dompdf->output();
+                file_put_contents('../files/equipo/'.$id.'/'.$titulo, $output);
+            }  
+           
+            redirect(getUrl('Remision','Remision','listar'));
+        }
+    }
+    
     
     public function listar(){
         
@@ -230,50 +258,50 @@ class RemisionController{
         $sql="SELECT * FROM equipos WHERE serial='".$serie."'";
         $resul=$obj->consult($sql);
         
-              
-            while ($re=mysqli_fetch_assoc($resul)) {
-             
-                echo "
-                <div class='col-md-12 form-group'>	
-
-                <label>Activo Fijo</label>
-                <div id='activo'></div>
-
-                <input type='text' readonly name='activo[]'  value='".$re['activo_fijo']."' id='fijo' class='form-control '>
-                
-                </div> 
-
-                <div class='col-md-12 form-group'>	
-
-                <label>Descripcion</label>
-                <div id='descripcion'></div>
-
-                <input type='text'readonly name='descripcion[]'  value='".$re['desc_equipo']."' id='descrip' class='form-control '>
-                
-                </div>
-
-               
-                ";
-                
-            }
-        }
         
-        public function detalle() {
-            $obj=new RemisionModel();
-            $id_remision=$_GET['id_remision'];
-
+        while ($re=mysqli_fetch_assoc($resul)) {
             
-            $sql="SELECT * FROM remision WHERE id_remision=$id_remision";
-           
-            $remi=$obj->consult($sql);
-            $remision=mysqli_fetch_assoc($remi);
-          
-            $sql="SELECT m.desc_marca,t.desc_tipo_equipo,e.id,e.desc_equipo,e.serial,e.activo_fijo,e.num_intervencion,e.caracteristicas,e.usuario,e.fecha_compra,e.fecha_fin_garantia,es.nombre_estado FROM equipos e,marcas m,tipo_equipo t,estado es WHERE m.id=e.id_marca AND t.id=e.tipo_equipo AND e.id_estado=es.id_estado AND e.id=e.id AND activo_fijo=(SELECT activo_remi FROM remision Where id_remision=$id_remision)";
-          
-            $equipo=$obj->consult($sql);
-            $equi=mysqli_fetch_assoc($equipo);
+            echo "
+            <div class='col-md-12 form-group'>	
             
-            include_once '../view/remision/detalle.php';
+            <label>Activo Fijo</label>
+            <div id='activo'></div>
+            
+            <input type='text' readonly name='activo[]'  value='".$re['activo_fijo']."' id='fijo' class='form-control '>
+            
+            </div> 
+            
+            <div class='col-md-12 form-group'>	
+            
+            <label>Descripcion</label>
+            <div id='descripcion'></div>
+            
+            <input type='text'readonly name='descripcion[]'  value='".$re['desc_equipo']."' id='descrip' class='form-control '>
+            
+            </div>
+            
+            
+            ";
+            
         }
     }
-    ?>
+    
+    public function detalle() {
+        $obj=new RemisionModel();
+        $id_remision=$_GET['id_remision'];
+        
+        
+        $sql="SELECT * FROM remision WHERE id_remision=$id_remision";
+        
+        $remi=$obj->consult($sql);
+        $remision=mysqli_fetch_assoc($remi);
+        
+        $sql="SELECT m.desc_marca,t.desc_tipo_equipo,e.id,e.desc_equipo,e.serial,e.activo_fijo,e.num_intervencion,e.caracteristicas,e.usuario,e.fecha_compra,e.fecha_fin_garantia,es.nombre_estado FROM equipos e,marcas m,tipo_equipo t,estado es WHERE m.id=e.id_marca AND t.id=e.tipo_equipo AND e.id_estado=es.id_estado AND e.id=e.id AND activo_fijo=(SELECT activo_remi FROM remision Where id_remision=$id_remision)";
+        
+        $equipo=$obj->consult($sql);
+        $equi=mysqli_fetch_assoc($equipo);
+        
+        include_once '../view/remision/detalle.php';
+    }
+}
+?>
