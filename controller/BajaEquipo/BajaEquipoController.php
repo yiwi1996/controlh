@@ -33,6 +33,7 @@ class BajaEquipoController{
     }
     
     public function postCreate(){
+
         $obj=new BajaEquipoModel();
         
         
@@ -52,9 +53,16 @@ class BajaEquipoController{
         $contabilizado_baja=$_POST['contabilizado_baja'];
         $id_pdf=$obj->autoincrement("baja","id_baja");
         
-        
+      
+
         $empleado=array();
         $baja=array();
+
+        $regi=count($activo_baja);
+
+   
+
+        if($regi>1){
         
         for ($i=1; $i < count($activo_baja); $i++) { 
             
@@ -65,9 +73,27 @@ class BajaEquipoController{
             $insertar=$obj->insert($sql);
             
             $sql="SELECT serial_baja,activo_baja,descripcion,valor FROM baja WHERE id_baja=$id_baja";
+
+           
             
             $equipo[$i]=$obj->insert($sql);
         }
+    }else{
+        for ($i=0; $i < count($activo_baja); $i++) { 
+            
+            $id_baja=$obj->autoincrement("baja","id_baja");
+            
+            $sql="INSERT INTO baja VALUES ($id_baja,'".$factura[$i]."','".$nit[$i]."','".$fecha_baja."','".$asunto_baja."','".$equipo_baja[$i]."','".$activo_baja[$i]."','".$serial_baja[$i+1]."','".$descripcion[$i]."','".$valor[$i]."','".$marca[$i]."','".$validado_baja."','".$elaborado_baja."','".$autorizado_baja."','".$contabilizado_baja."',$id_pdf)";
+            
+            $insertar=$obj->insert($sql);
+            
+            $sql="SELECT serial_baja,activo_baja,descripcion,valor FROM baja WHERE id_baja=$id_baja";
+
+           
+            
+            $equipo[$i]=$obj->insert($sql);
+        }
+    }
         
         
         

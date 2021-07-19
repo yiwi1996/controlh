@@ -340,7 +340,7 @@ $html.='<table style="width:100%;" class="tabla">';
     $html.='<thead>';
 
     $html.='<tbody>'; 
-    foreach ($equipo as $equi ) {
+    foreach ($equipo1 as $equi ) {
         foreach ($equi as $equ ) {
             $html.='<tr>';
                 $html.=' <td class="borde tabla1" width="27%" style="text-align:center;">';

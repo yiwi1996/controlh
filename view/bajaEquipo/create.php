@@ -20,8 +20,10 @@
             <div class="col-md-12 form-group " id="cop" style="display: none;">	
 
         </div>
+            <div class="form-group col-md-12">
+                <button type="button" id="eliminar" class="btn btn-danger form-control">Eliminar</button>
 
-            
+            </div>
             <div class="col-md-2 form-group">
                 <label>Agregar un nuevo serial</label>
             </div>  
@@ -31,10 +33,7 @@
                 <div class="serie"></div>
             </div>
 
-            <div class="form-group col-md-12">
-                <button type="button" id="eliminar" class="btn btn-danger form-control">Eliminar</button>
-
-            </div>
+        
 
            
 

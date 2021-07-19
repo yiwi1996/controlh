@@ -106,7 +106,7 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
         $html.='</tr>';
     $html.='</tbody>';
 $html.='</table>';
-$html.='<br>';
+if($intervencion !='' && isset($intervencion)){
 $html.='<p>3.Registro de Intervenciones';
 $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;" >';
     $html.='<tbody>';
@@ -141,7 +141,7 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
                 $html.='Corr';
             $html.='</center></td>';
         $html.='</tr>';
-if($intervencion !=''){
+
    
     foreach ($intervencion as $inter) {
         
@@ -176,10 +176,11 @@ if($intervencion !=''){
 
         $html.='</tr>';
     }
-}
+
     $html.='</tbody>';
 $html.='</table>';
-
+}
+if($remision !=''  && isset($remision)){
 $html.='<p>4.Registro de Remision';
 
 $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;" >';
@@ -202,8 +203,6 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
             $html.='</center></td>';
 
         $html.='</tr>';
-        
-if($remision !=''){
    
     foreach ($remision as $remi) {
         
@@ -226,10 +225,11 @@ if($remision !=''){
 
         $html.='</tr>';
     }
-}
+
     $html.='</tbody>';
 $html.='</table>';
-
+}
+if($adjudicacion !=''  && isset($adjudicacion)){
 $html.='<p>5.Registro de Adjudicacion';
 
 $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;" >';
@@ -252,9 +252,7 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
             $html.='</center></td>';
 
         $html.='</tr>';
-        
-if($adjudicacion !=''){
-   
+           
     foreach ($adjudicacion as $adju) {
         
         $html.='<tr>';
@@ -267,7 +265,7 @@ if($adjudicacion !=''){
             $html.='</td>';
 
             $html.='<td>';
-                $html.=$empleado['nombre_empleado'];
+                $html.=$empleado[0]['nombre_empleado'];
             $html.='</td>';
 
             $html.='<td>';
@@ -276,7 +274,57 @@ if($adjudicacion !=''){
 
         $html.='</tr>';
     }
-}
+
     $html.='</tbody>';
 $html.='</table>';
+}
+if($baja !=''  && isset($baja)){
+$html.='<p>6.Registro de Baja';
+
+$html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;" >';
+    $html.='<tbody>';
+        $html.='<tr>';
+            $html.='<td><center>';
+                $html.='Fecha';
+            $html.='</center></td>';
+
+            $html.='<td  colspan="3"  style="width:250px;"><center>';
+                $html.='Detalle';
+            $html.='</center></td>';
+
+            $html.='<td><center>';
+                $html.='Realizado';
+            $html.='</center></td>';
+
+            $html.='<td><center>';
+                $html.='Valor';
+            $html.='</center></td>';
+
+        $html.='</tr>';
+           
+    foreach ($baja as $baj) {
+        
+        $html.='<tr>';
+            $html.='<td>';
+                $html.=$baj['fecha_baja'];
+            $html.='</td>';
+       
+            $html.='<td colspan="3"  style="width:250px;">';
+                $html.=$baj['descripcion'];
+            $html.='</td>';
+
+            $html.='<td>';
+                $html.=$empleado[1]['nombre_empleado'];
+            $html.='</td>';
+
+            $html.='<td>';
+                $html.=$baj['valor'];
+            $html.='</td>';
+
+        $html.='</tr>';
+    }
+
+    $html.='</tbody>';
+$html.='</table>';
+}
 ?>

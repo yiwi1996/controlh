@@ -45,6 +45,7 @@ class IntervencionController{
 
         $remicion=$obj->insert($sql);
         
+        $empleado=array();
        
         if($pre!=NULL){
             $pre=1;
@@ -86,16 +87,26 @@ class IntervencionController{
             $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjud['nombre']." OR nombre_empleado=".$adjud['nombre']."";
         
             $emple=$obj->consult($sql);
-            $empleado=mysqli_fetch_assoc($emple); 
+            $empleado[0]=mysqli_fetch_assoc($emple); 
+
+            $sql="SELECT fecha_baja,elaborado_baja,descripcion,valor FROM baja WHERE serial_baja='$serial'";
+
+            $baja=$obj->insert($sql);
+            $baj=mysqli_fetch_assoc($baja); 
+
+            $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$baj['elaborado_baja']." OR nombre_empleado=".$baj['elaborado_baja']."";
+
+            $emple=$obj->consult($sql);
+            $empleado[1]=mysqli_fetch_assoc($emple); 
 
 
-            $this->crearPDF($id,$equipo,$proveedor,$remision,$intervencion,$adjudicacion,$empleado);
+            $this->crearPDF($id,$equipo,$proveedor,$remision,$intervencion,$adjudicacion,$empleado,$baja);
 
             
         }
     }
 
-    public function crearPDF($id,$equipo,$proveedor,$remision,$intervencion,$adjudicacion,$empleado){  
+    public function crearPDF($id,$equipo,$proveedor,$remision,$intervencion,$adjudicacion,$empleado,$baja){  
        
         
         $dompdf = new Dompdf();

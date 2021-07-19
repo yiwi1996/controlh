@@ -120,7 +120,7 @@ class RemisionController{
             $definitivo=0;
         }
 
-      $equipo=array();
+      $equipo1=array();
         
      for ($i=0; $i < count($activo) ; $i++) { 
 
@@ -132,7 +132,7 @@ class RemisionController{
 
         $sql="SELECT r.serie_remi,r.descripcion_remi,r.activo_remi,e.nombre_estado FROM estado e,remision r WHERE r.id_estado=e.id_estado AND r.id_remision=$id_remision";
 
-        $equipo[$i]=$obj->insert($sql);
+        $equipo1[$i]=$obj->insert($sql);
     }
     
        
@@ -143,12 +143,13 @@ class RemisionController{
        
     
             $resultado=$obj->insert($sql);
+        
 
-            $this->crearPDF($resultado,$id_remision,$equipo,$num_pdf);
+            $this->crearPDF($resultado,$id_remision,$equipo1,$num_pdf);
         }
     }
     
-    public function crearPDF($resultado,$id_remision,$equipo,$num_pdf){  
+    public function crearPDF($resultado,$id_remision,$equipo1,$num_pdf){  
        
         if($resultado){
 
@@ -171,9 +172,31 @@ class RemisionController{
 
         $output = $dompdf->output();
         file_put_contents('../files/'.$num_pdf.'/'.$titulo, $output);
-
-        redirect(getUrl('Remision','Remision','listar'));
+       
         }
+
+        if($equipo){     
+        
+            include_once '../controller/dompdf/plantilla/equipo.php';
+            
+            $dompdf->loadHtml($html);
+            $dompdf->render();
+    
+            
+            
+            $ruta="../files/".$id;
+            if(!is_dir($ruta)){
+                mkdir($ruta,0777,true);
+            }
+            $titulo  = utf8_decode($id."equipo.pdf");//Nombre 
+    
+            $output = $dompdf->output();
+            file_put_contents('../files/'.$id.'/'.$titulo, $output);
+    
+            
+         
+        }
+        include_once '../view/remision/listar.php';
     }
     
     public function listar(){
