@@ -122,7 +122,7 @@ class RemisionController{
         
         $equipo1=array();
         $id=array();
-        
+        $empleado=array();
         for ($i=0; $i < count($activo) ; $i++) { 
             
             $id_remision=$obj->autoincrement("remision","id_remision");
@@ -144,6 +144,41 @@ class RemisionController{
             $sql="SELECT e.id,e.num_factura,e.serial,e.tipo_equipo,e.activo_fijo,t.desc_tipo_equipo,e.desc_equipo,m.desc_marca,e.caracteristicas,e.accesorios,e.usuario,p.nombre,e.fecha_compra,e.garantia,e.Fecha_fin_garantia,e.valor,es.nombre_estado FROM equipos e,tipo_equipo t,marcas m,proveedor p,estado es,co c WHERE  t.id=e.tipo_equipo AND  m.id=e.id_marca AND p.nit=e.nit AND es.id_estado=e.id_estado AND c.id=e.co AND e.serial='".$serie[$i]."'";
 
             $equipo=$obj->insert($sql);
+
+            $sql="SELECT p.nombre,p.direccion,p.barrio,p.contacto,p.telefono FROM equipos e,proveedor p WHERE  p.nit=e.nit AND e.serial='".$serie[$i]."'";
+
+            $proveedor=$obj->insert($sql);
+
+            $sql="SELECT * FROM intervencion WHERE serial_inter='".$serie[$i]."'";
+         
+            $intervencion=$obj->update($sql);
+
+            
+            $sql="SELECT d.nombre_despa,r.fecha_remi,r.descripcion_remi,e.nombre_estado FROM remision r,estado e, despachado d WHERE d.id_despachado=r.id_despachado and e.id_estado=r.id_estado and serie_remi='".$serie[$i]."'";
+            $remision=$obj->update($sql);
+
+            $remicion1=$obj->insert($sql);
+
+            $sql="SELECT nombre,descripcion,fecha_entrega,valor FROM adjudicacion WHERE serial='".$serie[$i]."'";
+
+            $adjudicacion=$obj->insert($sql);
+
+            $adjud=mysqli_fetch_assoc($adjudicacion);
+
+            $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjud['nombre']." OR nombre_empleado=".$adjud['nombre']."";
+        
+            $emple=$obj->consult($sql);
+            $empleado[0]=mysqli_fetch_assoc($emple); 
+            
+            $sql="SELECT fecha_baja,elaborado_baja,descripcion,valor FROM baja WHERE serial_baja='".$serie[$i]."'";
+
+            $baja=$obj->insert($sql);
+            $baj=mysqli_fetch_assoc($baja); 
+
+            $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$baj['elaborado_baja']." OR nombre_empleado=".$baj['elaborado_baja']."";
+
+            $emple=$obj->consult($sql);
+            $empleado[1]=mysqli_fetch_assoc($emple); 
             
             
         }
@@ -153,17 +188,19 @@ class RemisionController{
             
             
             $sql="SELECT r.num_remi,r.fecha_remi,r.hora_envio_remi,r.temporal_remi,r.definitivo_remi,r.fecha_devo_remi,r.empresa_remi,r.direccion_remi,r.funcionario_remi,r.activo_remi,r.serie_remi,r.descripcion_remi,r.observacion_remi,d.nombre_despa,t.nombre_transpor,m.nombre_moti,a.nombre_area,de.dep_nombre,c.ciu_nombre,e.nombre_estado FROM remision r,despachado d,transportado t,motivo m,area a,departamento de,ciudad c,estado e WHERE r.id_despachado=d.id_despachado AND r.id_transportado=t.id_transportado AND r.id_motivo=m.id_motivo AND r.id_area=a.id_area AND r.dep_id=de.dep_id AND r.ciu_id=c.ciu_id AND r.id_estado=e.id_estado AND r.id_remision=$id_remision";
+
+          
             
             
             $resultado=$obj->insert($sql);
 
          
             
-            $this->crearPDF($resultado,$id_remision,$equipo1,$num_pdf,$id,$equipo);
+            $this->crearPDF($resultado,$id_remision,$equipo1,$num_pdf,$id,$equipo,$proveedor,$intervencion,$remicion1,$adjudicacion, $empleado,$baja);
         }
     }
     
-    public function crearPDF($resultado,$id_remision,$equipo1,$num_pdf,$id,$equipo){  
+    public function crearPDF($resultado,$id_remision,$equipo1,$num_pdf,$id,$equipo,$proveedor,$intervencion,$remicion1,$adjudicacion, $empleado,$baja){  
         
         if($resultado){
             
@@ -188,21 +225,23 @@ class RemisionController{
             file_put_contents('../files/'.$num_pdf.'/'.$titulo, $output);
             
         }
-        $this->crearPDFequipo($id,$resultado,$equipo);
+        $this->crearPDFequipo($id,$remicion1,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado,$baja);
         
     }
     
-    public function crearPDFequipo($id,$remision,$equipo){ 
+    public function crearPDFequipo($id,$remision,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado,$baja){
+
         $dompdf = new Dompdf();
-        
+
         $equi=mysqli_fetch_assoc($equipo);
+        $prov=mysqli_fetch_assoc($proveedor);
         if($id){ 
             
        echo count($id);
             for ($i=0; $i < count($id) ; $i++) { 
                 
                 $id=$id[$i];
-                echo $id;
+             
                 include_once '../controller/dompdf/plantilla/equipo.php';
                
                  $dompdf->loadHtml($html);
