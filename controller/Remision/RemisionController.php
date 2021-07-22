@@ -237,7 +237,6 @@ class RemisionController{
         $prov=mysqli_fetch_assoc($proveedor);
         if($id){ 
             
-       echo count($id);
             for ($i=0; $i < count($id) ; $i++) { 
                 
                 $id=$id[$i];

@@ -13,7 +13,7 @@
     }
     
     if ($info['nombre']) {     
-        $nombre = $info['nombre'];
+        $nombre = $info['nit'];
     }
     
     if ($info['fecha_entrega']) {     
