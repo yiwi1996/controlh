@@ -201,8 +201,7 @@ class AdjudicacionController{
         $equi=mysqli_fetch_assoc($equipo);
         $prov=mysqli_fetch_assoc($proveedor);
         if($id){ 
-            
-       echo count($id);
+
             for ($i=0; $i < count($id) ; $i++) { 
                 
                 $id=$id[$i];
