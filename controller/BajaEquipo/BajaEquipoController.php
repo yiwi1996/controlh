@@ -58,6 +58,12 @@ class BajaEquipoController{
         $empleado=array();
         $baja=array();
         $empleado1=array();
+        $id=array();
+        $remicion1=array();
+        $equipo1=array();
+        $intervencion=array();
+        $adjudicacion=array();
+        $empleado1=array();
 
         $regi=count($activo_baja);
 
@@ -80,14 +86,14 @@ class BajaEquipoController{
             $equipo[$i]=$obj->insert($sql);
 
             $sql="SELECT id FROM equipos WHERE serial='".$serial_baja[$i]."'";
-            dd($sql);
+            
             $equi=$obj->insert($sql);
             $equi=mysqli_fetch_assoc($equi);
             $id[$i]=$equi['id'];
             
             $sql="SELECT e.id,e.num_factura,e.serial,e.tipo_equipo,e.activo_fijo,t.desc_tipo_equipo,e.desc_equipo,m.desc_marca,e.caracteristicas,e.accesorios,e.usuario,p.nombre,e.fecha_compra,e.garantia,e.Fecha_fin_garantia,e.valor,es.nombre_estado FROM equipos e,tipo_equipo t,marcas m,proveedor p,estado es,co c WHERE  t.id=e.tipo_equipo AND  m.id=e.id_marca AND p.nit=e.nit AND es.id_estado=e.id_estado AND c.id=e.co AND e.serial='".$serial_baja[$i]."'";
 
-            $equipo1=$obj->insert($sql);
+            $equipo1[$i]=$obj->insert($sql);
 
             $sql="SELECT p.nombre,p.direccion,p.barrio,p.contacto,p.telefono FROM equipos e,proveedor p WHERE  p.nit=e.nit AND e.serial='".$serial_baja[$i]."'";
 
@@ -95,13 +101,13 @@ class BajaEquipoController{
 
             $sql="SELECT * FROM intervencion WHERE serial_inter='".$serial_baja[$i]."'";
          
-            $intervencion=$obj->update($sql);
+            $intervencion[$i]=$obj->update($sql);
 
             $sql="SELECT nombre,descripcion,fecha_entrega,valor FROM adjudicacion WHERE serial='".$serial_baja[$i]."'";
 
-            $adjudicacion=$obj->insert($sql);
+            $adjudicacion[$i]=$obj->insert($sql);
 
-            $adjud=mysqli_fetch_assoc($adjudicacion);
+            $adjud=mysqli_fetch_assoc($adjudicacion[$i]);
 
             $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjud['nombre']." OR nombre_empleado=".$adjud['nombre']."";
         
@@ -120,7 +126,7 @@ class BajaEquipoController{
                
             $sql="SELECT d.nombre_despa,r.fecha_remi,r.descripcion_remi,e.nombre_estado FROM remision r,estado e, despachado d WHERE d.id_despachado=r.id_despachado and e.id_estado=r.id_estado and serie_remi='".$serial_baja[$i]."'";
 
-            $remicion1=$obj->insert($sql);
+            $remicion1[$i]=$obj->insert($sql);
         }
     }else{
         for ($i=0; $i < count($activo_baja); $i++) { 
@@ -145,7 +151,7 @@ class BajaEquipoController{
             $sql="SELECT e.id,e.num_factura,e.serial,e.tipo_equipo,e.activo_fijo,t.desc_tipo_equipo,e.desc_equipo,m.desc_marca,e.caracteristicas,e.accesorios,e.usuario,p.nombre,e.fecha_compra,e.garantia,e.Fecha_fin_garantia,e.valor,es.nombre_estado FROM equipos e,tipo_equipo t,marcas m,proveedor p,estado es,co c WHERE  t.id=e.tipo_equipo AND  m.id=e.id_marca AND p.nit=e.nit AND es.id_estado=e.id_estado AND c.id=e.co AND e.serial='".$serial_baja[$i+1]."'";
            
 
-            $equipo1=$obj->insert($sql);
+            $equipo1[$i]=$obj->insert($sql);
 
             $sql="SELECT p.nombre,p.direccion,p.barrio,p.contacto,p.telefono FROM equipos e,proveedor p WHERE  p.nit=e.nit AND e.serial='".$serial_baja[$i+1]."'";
 
@@ -153,13 +159,13 @@ class BajaEquipoController{
 
             $sql="SELECT * FROM intervencion WHERE serial_inter='".$serial_baja[$i+1]."'";
          
-            $intervencion=$obj->update($sql);
+            $intervencion[$i]=$obj->update($sql);
 
             $sql="SELECT nombre,descripcion,fecha_entrega,valor FROM adjudicacion WHERE serial='".$serial_baja[$i+1]."'";
 
-            $adjudicacion=$obj->insert($sql);
+            $adjudicacion[$i]=$obj->insert($sql);
 
-            $adjud=mysqli_fetch_assoc($adjudicacion);
+            $adjud=mysqli_fetch_assoc($adjudicacion[$i]);
 
             $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjud['nombre']." OR nombre_empleado=".$adjud['nombre']."";
         
@@ -178,7 +184,7 @@ class BajaEquipoController{
                
             $sql="SELECT d.nombre_despa,r.fecha_remi,r.descripcion_remi,e.nombre_estado FROM remision r,estado e, despachado d WHERE d.id_despachado=r.id_despachado and e.id_estado=r.id_estado and serie_remi='".$serial_baja[$i+1]."'";
 
-            $remicion1=$obj->insert($sql);
+            $remicion1[$i]=$obj->insert($sql);
         }
     }
         
@@ -392,32 +398,36 @@ class BajaEquipoController{
             $output = $dompdf->output();
             file_put_contents('../files/bajaEquipo/'.$id_pdf.'/'.$titulo, $output);
             
-            $this->crearPDFequipo($id,$remicion1,$equipo1,$proveedor,$intervencion,$adjudicacion,$empleado1,$baja);
+            $this->crearPDFequipo($id,$remicion1,$equipo1,$proveedor,$intervencion,$adjudicacion,$empleado1,$baja1);
      
             
         }
 
     }
 
-    public function crearPDFequipo($id,$remision,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado,$baja1){
+    public function crearPDFequipo($id,$remision,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado,$baja){
 
         $dompdf = new Dompdf();
     
-        $equi=mysqli_fetch_assoc($equipo);
-        $prov=mysqli_fetch_assoc($proveedor);
+       
+        $a=count($id);
+        $i=1;
         if($id){ 
             
-            for ($i=0; $i < count($id) ; $i++) { 
-                
+            
+            do{ 
+
+                $equi=mysqli_fetch_assoc($equipo[$i]);
+                $prov=mysqli_fetch_assoc($proveedor);
                 $id=$id[$i];
-             
+                $remision=$remision[$i];
+                $intervencion= $intervencion[$i];
+                $adjudicacion= $adjudicacion[$i];
+            
                 include_once '../controller/dompdf/plantilla/equipo.php';
                
                  $dompdf->loadHtml($html);
                  $dompdf->render();
-             
-                
-                
              
                 $ruta="../files/equipo/".$id;
              
@@ -428,8 +438,11 @@ class BajaEquipoController{
                 
                 $output = $dompdf->output();
                 file_put_contents('../files/equipo/'.$id.'/'.$titulo, $output);
-            }  
-        }
+             
+                $i++;
+            }while ($a>=$i);
+        } 
+        
         redirect(getUrl('BajaEquipo','BajaEquipo','listar'));
     }
     
