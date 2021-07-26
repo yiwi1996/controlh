@@ -155,7 +155,7 @@
 
         </div>
    
-        <div class="form-group col-md-4"<?php if($equipo['id_sis_operativo']==4 || $equipo['id_sis_operativo']==NULL){?> style="display: none;" <?php } ?> >
+        <div class="form-group col-md-4"<?php if($equipo['id_sis_operativo']==4 || $equipo['id_sis_operativo']==NULL){?> style="display: block;" <?php } ?> >
             <label>Sistema Operativo:</label>
             <span class="form-control " ><?php echo $equipo['desc_operativo'] ?></span>
 
