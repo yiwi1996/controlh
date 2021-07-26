@@ -152,13 +152,13 @@ class AdjudicacionController{
         $empleado[3]=$obj->insert($sql);
         
         
-        $this->crearPDF($resul,$id_adjudicacion,$n,$descripcion1,$valor1, $activo_fijo1, $serial1,$empleado,$num_pdf,$id,$remicion1,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado1,$baja);
+        $this->crearPDF($resul,$id_adjudicacion,$n,$descripcion1,$valor1, $activo_fijo1, $serial1,$empleado,$num_pdf);
         
         
         
     }
     
-    public function crearPDF($resul,$id_adjudicacion,$n,$descripcion1,$valor1, $activo_fijo1, $serial1,$empleado,$num_pdf,$id,$remicion1,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado1,$baja){  
+    public function crearPDF($resul,$id_adjudicacion,$n,$descripcion1,$valor1, $activo_fijo1, $serial1,$empleado,$num_pdf){  
         $obj=new AdjudicacionModel();
         
         
@@ -189,9 +189,7 @@ class AdjudicacionController{
             }
             
         }
-        
-        $this->crearPDFequipo($id,$remicion1,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado1,$baja);
-     
+        redirect(getUrl('Adjudicacion','Adjudicacion','listar'));
     }
 
     public function crearPDFequipo($id,$remision,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado,$baja){
@@ -225,7 +223,7 @@ class AdjudicacionController{
                 file_put_contents('../files/equipo/'.$id.'/'.$titulo, $output);
             }  
            
-            redirect(getUrl('Adjudicacion','Adjudicacion','listar'));
+         
         }
     }
     

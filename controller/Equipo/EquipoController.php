@@ -109,9 +109,8 @@ class EquipoController{
             $sql="SELECT p.nombre,p.direccion,p.barrio,p.contacto,p.telefono FROM equipos e,proveedor p WHERE  p.nit=e.nit AND e.id=$id";
 
             $proveedor=$obj->insert($sql);
-            
-            $this->crearPDF($id,$equipo,$proveedor);
-            
+
+            redirect(getUrl('Equipo','Equipo','listar'));
         }
     }
     
@@ -226,7 +225,7 @@ class EquipoController{
         
     }
     
-    public function crearPDF($id,$equipo,$proveedor){  
+    public function crearPDF($id,$remision,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado,$baja){  
         
         $dompdf = new Dompdf();
 
@@ -248,12 +247,6 @@ class EquipoController{
         
         $output = $dompdf->output();
         file_put_contents('../files/equipo/'.$id.'/'.$titulo, $output);
-        
-        redirect(getUrl('Equipo','Equipo','listar'));
-    }
-
-    public function pdf(){
-        $id=$_GET['id'];
 
         echo '<div class="modal-header" style="width: 100% ;">
         <h5 class="modal-title" id="exampleModalLabel">Detalle de Equipo</h5>
@@ -263,7 +256,54 @@ class EquipoController{
          </div><object tipe="application/pdf" data="../files/equipo/'.$id.'/'.$id.'equipo.pdf" " width="100%"     height="700px"></object> <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
         </div>';
+        
+        
+    }
 
+    public function pdf(){
+        $obj=new EquipoModel();
+        $id=$_GET['id'];
+        $serial=$_GET['serial'];
+
+        $sql="SELECT e.id,e.num_factura,e.serial,e.tipo_equipo,e.activo_fijo,t.desc_tipo_equipo,e.desc_equipo,m.desc_marca,e.caracteristicas,e.accesorios,e.usuario,p.nombre,e.fecha_compra,e.garantia,e.Fecha_fin_garantia,e.valor,es.nombre_estado FROM equipos e,tipo_equipo t,marcas m,proveedor p,estado es,co c WHERE  t.id=e.tipo_equipo AND  m.id=e.id_marca AND p.nit=e.nit AND es.id_estado=e.id_estado AND c.id=e.co AND e.serial='$serial'";
+
+        $equipo=$obj->insert($sql);
+
+        $sql="SELECT p.nombre,p.direccion,p.barrio,p.contacto,p.telefono FROM equipos e,proveedor p WHERE  p.nit=e.nit AND e.serial='$serial'";
+
+        $proveedor=$obj->insert($sql);
+
+        $sql="SELECT * FROM intervencion WHERE serial_inter='$serial'";
+     
+        $intervencion=$obj->update($sql);
+
+        $sql="SELECT nombre,descripcion,fecha_entrega,valor FROM adjudicacion WHERE serial='$serial'";
+
+        $adjudicacion=$obj->insert($sql);
+
+        $adjud=mysqli_fetch_assoc($adjudicacion);
+
+        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjud['nombre']." OR nombre_empleado=".$adjud['nombre']."";
+    
+        $emple=$obj->consult($sql);
+        $empleado[0]=mysqli_fetch_assoc($emple); 
+        
+        $sql="SELECT fecha_baja,elaborado_baja,descripcion,valor FROM baja WHERE serial_baja='$serial'";
+
+        $baja=$obj->insert($sql);
+        $baj=mysqli_fetch_assoc($baja); 
+
+        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$baj['elaborado_baja']." OR nombre_empleado=".$baj['elaborado_baja']."";
+
+        $emple=$obj->consult($sql);
+        $empleado[1]=mysqli_fetch_assoc($emple); 
+           
+        $sql="SELECT d.nombre_despa,r.fecha_remi,r.descripcion_remi,e.nombre_estado FROM remision r,estado e, despachado d WHERE d.id_despachado=r.id_despachado and e.id_estado=r.id_estado and serie_remi='$serial'";
+
+        $remision=$obj->insert($sql);
+
+        $this->crearPDF($id,$remision,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado,$baja);
+            
     }
     
 }

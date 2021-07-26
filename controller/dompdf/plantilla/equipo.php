@@ -106,7 +106,7 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
         $html.='</tr>';
     $html.='</tbody>';
 $html.='</table>';
-if($intervencion !='' && isset($intervencion)){
+if(mysqli_num_rows($intervencion)>0){
 $html.='<p>3.Registro de Intervenciones';
 $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;" >';
     $html.='<tbody>';
@@ -180,7 +180,7 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
     $html.='</tbody>';
 $html.='</table>';
 }
-if($remision !=''  && isset($remision)){
+if(mysqli_num_rows($remision)>0){
 $html.='<p>4.Registro de Remision';
 
 $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;" >';
@@ -229,7 +229,7 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
     $html.='</tbody>';
 $html.='</table>';
 }
-if($adjudicacion !=''  && isset($adjudicacion)){
+if(mysqli_num_rows($adjudicacion)>0){
 $html.='<p>5.Registro de Adjudicacion';
 
 $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;" >';
@@ -278,7 +278,7 @@ $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;
     $html.='</tbody>';
 $html.='</table>';
 }
-if($baja !=''  && isset($baja)){
+if(mysqli_num_rows($baja)>0){
 $html.='<p>6.Registro de Baja';
 
 $html.='<table border="2"  cellspacing="0" cellpadding="5px" style="width: 100%;" >';

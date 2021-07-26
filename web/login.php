@@ -5,7 +5,7 @@
 <html lang="en" class="body-full-height">
   <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>COPAG</title>
+  <title>CONTROLH</title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <link rel="icon" href="assets/img/icon.ico" type="image/x-icon"/>
 
@@ -29,16 +29,17 @@
   <link rel="stylesheet" href="assets/css/demo.css">
 </head>
   <body>
-    <div class="">
+  <div class="container bg bg-sussecc border border-white rounded-lg shadow-lg p-3 mb-auto" style="margin-top: 12%; width: 30%">
+  <img src="img/login.php" >
       <div class="container">
         <form class="login-form" method="post" action="<?php echo getUrl("Acceso","Acceso","postLogin",false,"ajax");?>">
           <div class="login-wrap">
             <p class="login-img">Iniciar Sesión</p>
-            <div class="input-group">
+            <div class="input-group form-group col-md-12">
               <span class="input-group-addon"><i class="fas fa-user"></i></span>
               <input type="email" name="usu_correo" class="form-control" placeholder="Usuario">
             </div>
-            <div class="input-group">
+            <div class="input-group form-group col-md-12">
               <span class="input-group-addon"><i class="fa fa-key"></i></span>
               <input type="password" name="usu_clave" class="form-control" placeholder="Contraseña">
             </div>
@@ -197,30 +198,5 @@
       fillColor: 'rgba(255, 165, 52, .14)'
     });
   </script>
-  <footer class="footer">
-  <div class="container-fluid">
-    <nav class="pull-left">
-      <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link" href="https://www.themekita.com">
-            SENA
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            Help
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            Licenses
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <div class="copyright ml-auto">
-      2018, made with <i class="fa fa-heart heart text-danger"></i> by <a href="https://www.themekita.com">ThemeKita</a>
-    </div>        
-  </div>
-</footer>
+ 
 </html>

@@ -233,7 +233,7 @@
         <div class="form-group col-md-4">
             <a href="<?php echo getUrl("Equipo", "Equipo", "listar"); ?>"class="btn btn-danger">Atras</a> 
 
-            <button id="botoncito" data-url="<?php echo getUrl("Equipo","Equipo","pdf",array("id"=>$equipo['id']),"ajax")?>" type="button" class="btn btn-warning btn-info" data-toggle="modal" data-target="#exampleModal">
+            <button id="botoncito" data-url="<?php echo getUrl("Equipo","Equipo","pdf",array("id"=>$equipo['id'],"serial"=>$equipo['serial']),"ajax")?>" type="button" class="btn btn-warning btn-info" data-toggle="modal" data-target="#exampleModal">
                     Ver PDF 
                 </button>
         </div>
