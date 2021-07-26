@@ -90,49 +90,6 @@ class AdjudicacionController{
                 
                 $n++;
             }
-  
-            $sql="SELECT id FROM equipos WHERE serial='".$serial[$i]."'";
-            
-            $equi=$obj->insert($sql);
-            $equi=mysqli_fetch_assoc($equi);
-            $id[$i]=$equi['id'];
-
-            $sql="SELECT e.id,e.num_factura,e.serial,e.tipo_equipo,e.activo_fijo,t.desc_tipo_equipo,e.desc_equipo,m.desc_marca,e.caracteristicas,e.accesorios,e.usuario,p.nombre,e.fecha_compra,e.garantia,e.Fecha_fin_garantia,e.valor,es.nombre_estado FROM equipos e,tipo_equipo t,marcas m,proveedor p,estado es,co c WHERE  t.id=e.tipo_equipo AND  m.id=e.id_marca AND p.nit=e.nit AND es.id_estado=e.id_estado AND c.id=e.co AND e.serial='".$serial[$i]."'";
-
-            $equipo=$obj->insert($sql);
-
-            $sql="SELECT p.nombre,p.direccion,p.barrio,p.contacto,p.telefono FROM equipos e,proveedor p WHERE  p.nit=e.nit AND e.serial='".$serial[$i]."'";
-
-            $proveedor=$obj->insert($sql);
-
-            $sql="SELECT * FROM intervencion WHERE serial_inter='".$serial[$i]."'";
-         
-            $intervencion=$obj->update($sql);
-
-            $sql="SELECT nombre,descripcion,fecha_entrega,valor FROM adjudicacion WHERE serial='".$serial[$i]."'";
-
-            $adjudicacion=$obj->insert($sql);
-
-            $adjud=mysqli_fetch_assoc($adjudicacion);
-
-            $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjud['nombre']." OR nombre_empleado=".$adjud['nombre']."";
-        
-            $emple=$obj->consult($sql);
-            $empleado1[0]=mysqli_fetch_assoc($emple); 
-            
-            $sql="SELECT fecha_baja,elaborado_baja,descripcion,valor FROM baja WHERE serial_baja='".$serial[$i]."'";
-
-            $baja=$obj->insert($sql);
-            $baj=mysqli_fetch_assoc($baja); 
-
-            $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$baj['elaborado_baja']." OR nombre_empleado=".$baj['elaborado_baja']."";
-
-            $emple=$obj->consult($sql);
-            $empleado1[1]=mysqli_fetch_assoc($emple); 
-               
-            $sql="SELECT d.nombre_despa,r.fecha_remi,r.descripcion_remi,e.nombre_estado FROM remision r,estado e, despachado d WHERE d.id_despachado=r.id_despachado and e.id_estado=r.id_estado and serie_remi='".$serial[$i]."'";
-
-            $remicion1=$obj->insert($sql);
             
         }
         $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE nombre_empleado=(SELECT nombre FROM adjudicacion WHERE id_adjudicacion=$id_adjudicacion) OR cedula_emplea=(SELECT nombre FROM adjudicacion WHERE id_adjudicacion=$id_adjudicacion)";
@@ -192,40 +149,6 @@ class AdjudicacionController{
         redirect(getUrl('Adjudicacion','Adjudicacion','listar'));
     }
 
-    public function crearPDFequipo($id,$remision,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado,$baja){
-
-        $dompdf = new Dompdf();
-
-        $equi=mysqli_fetch_assoc($equipo);
-        $prov=mysqli_fetch_assoc($proveedor);
-        if($id){ 
-
-            for ($i=0; $i < count($id) ; $i++) { 
-                
-                $id=$id[$i];
-             
-                include_once '../controller/dompdf/plantilla/equipo.php';
-               
-                 $dompdf->loadHtml($html);
-                 $dompdf->render();
-             
-                
-                
-             
-                $ruta="../files/equipo/".$id;
-             
-                if(!is_dir($ruta)){
-                    mkdir($ruta,0777,true);
-                }
-                $titulo  = utf8_decode($id."equipo.pdf");//Nombre 
-                
-                $output = $dompdf->output();
-                file_put_contents('../files/equipo/'.$id.'/'.$titulo, $output);
-            }  
-           
-         
-        }
-    }
     
     public function listar(){
         
