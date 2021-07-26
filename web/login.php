@@ -30,11 +30,10 @@
 </head>
   <body>
   <div class="container bg bg-sussecc border border-white rounded-lg shadow-lg p-3 mb-auto" style="margin-top: 12%; width: 30%">
-  <img src="img/login.php" >
+  <img src="img/login.jpeg" style="margin-top: 0%; width: 100%">
       <div class="container">
         <form class="login-form" method="post" action="<?php echo getUrl("Acceso","Acceso","postLogin",false,"ajax");?>">
           <div class="login-wrap">
-            <p class="login-img">Iniciar Sesión</p>
             <div class="input-group form-group col-md-12">
               <span class="input-group-addon"><i class="fas fa-user"></i></span>
               <input type="email" name="usu_correo" class="form-control" placeholder="Usuario">
