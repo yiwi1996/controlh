@@ -4,7 +4,6 @@
     
     if ($info['id_adjudicacion']) {     
         $id_adjudicacion = $info['id_adjudicacion'];
-       
     }
     
     if ($info['num_factura']) {     
