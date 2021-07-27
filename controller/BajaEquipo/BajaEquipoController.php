@@ -210,7 +210,7 @@ class BajaEquipoController{
             $sql="SELECT * FROM baja WHERE id_baja=$id_baja";
             $baja=$obj->consult($sql);
 
-            $this->crearPDF($baja,$equipo,$id_baja,$empleado,$id_pdf,$id,$remicion1,$equipo1,$proveedor,$intervencion,$adjudicacion,$empleado1,$baja1);
+            $this->crearPDF($baja,$equipo,$id_baja,$empleado,$id_pdf);
         }
     }
     
@@ -376,7 +376,7 @@ class BajaEquipoController{
         include_once '../view/bajaEquipo/detalle.php';
     }
     
-    public function crearPDF($baja,$equipo,$id_baja,$empleado,$id_pdf,$id,$remicion1,$equipo1,$proveedor,$intervencion,$adjudicacion,$empleado1,$baja1){  
+    public function crearPDF($baja,$equipo,$id_baja,$empleado,$id_pdf){  
         
         while($info=mysqli_fetch_assoc($baja)){
             
@@ -396,57 +396,10 @@ class BajaEquipoController{
             $titulo  = utf8_decode($id_pdf."bajaEquipo.pdf");//Nombre 
             
             $output = $dompdf->output();
-            file_put_contents('../files/bajaEquipo/'.$id_pdf.'/'.$titulo, $output);
-            
-            $this->crearPDFequipo($id,$remicion1,$equipo1,$proveedor,$intervencion,$adjudicacion,$empleado1,$baja1);
-     
-            
+            file_put_contents('../files/bajaEquipo/'.$id_pdf.'/'.$titulo, $output);    
         }
+        redirect(getUrl('Baja','Baja','listar'));
 
     }
-
-    public function crearPDFequipo($id,$remision,$equipo,$proveedor,$intervencion,$adjudicacion,$empleado,$baja){
-
-        $dompdf = new Dompdf();
-    
-       
-        $a=count($id);
-        $i=1;
-        if($id){ 
-            
-            
-            do{ 
-
-                $equi=mysqli_fetch_assoc($equipo[$i]);
-                $prov=mysqli_fetch_assoc($proveedor);
-                $id=$id[$i];
-                $remision=$remision[$i];
-                $intervencion= $intervencion[$i];
-                $adjudicacion= $adjudicacion[$i];
-            
-                include_once '../controller/dompdf/plantilla/equipo.php';
-               
-                 $dompdf->loadHtml($html);
-                 $dompdf->render();
-             
-                $ruta="../files/equipo/".$id;
-             
-                if(!is_dir($ruta)){
-                    mkdir($ruta,0777,true);
-                }
-                $titulo  = utf8_decode($id."equipo.pdf");//Nombre 
-                
-                $output = $dompdf->output();
-                file_put_contents('../files/equipo/'.$id.'/'.$titulo, $output);
-             
-                $i++;
-            }while ($a>=$i);
-        } 
-        
-        redirect(getUrl('BajaEquipo','BajaEquipo','listar'));
-    }
-    
-    
-    
 }
 ?>
