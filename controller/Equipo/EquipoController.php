@@ -97,7 +97,7 @@ class EquipoController{
         
         
         
-        
+
         
         $insertar=$obj->insert($sql);
         if($insertar){
@@ -148,13 +148,7 @@ class EquipoController{
         
         $eliminar=$obj->delete($sql);
         
-        if($eliminar){
-            echo" <script>
-            alert('Registro eliminado exitosamente');
-            </script>";
-            redirect(getUrl('Equipo','Equipo','listar'));
-        }
-        
+        echo $sql;
     }
     
     public function detalle() {

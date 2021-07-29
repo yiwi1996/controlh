@@ -48,7 +48,7 @@
             echo "<td width:37%> <center>
            <button  class='btn btn-warning' id='botoncito' data-url='".getUrl("Equipo","Equipo","Editar",array("id"=>$equi['id']),"ajax")."'>Editar</button>
 
-                <button class='btn btn-danger' id='botoncito' data-url='".getUrl("Equipo","Equipo","Eliminar",array("id"=>$equi['id']),"ajax")."'>Eliminar</button>
+                <button class='btn btn-danger eliminar'  onclick='alertEliminar();' data-url='".getUrl("Equipo","Equipo","Eliminar",array("id"=>$equi['id']),"ajax")."'>Eliminar</button>
 
                 <a href='".getUrl("Equipo","Equipo","detalle",
 				array("id"=>$equi['id']))."' class='btn btn-info'>Detalles</a> </center>

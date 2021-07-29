@@ -1,5 +1,6 @@
 $(document).ready(function(){
-    //Cambio-imagen function
+    
+      //Cambio-imagen function
     $(document).on("click", "#cambioImagen", function(){
         $("#contenedor").html("<input type='file' name='ciu_imagen'>");
     });
@@ -1133,7 +1134,6 @@ $(document).ready(function(){
     
     $(document).on("click",".eliminar",function(){
         var url=$(this).attr('data-url');
-        
         $ajax({
             url:url,
             success:function(datos){
@@ -1170,7 +1170,7 @@ $(document).ready(function(){
         }
         
     });*/
-    
+
     $("#form").validate({
         rules:{
             usu_nombre:"required",
@@ -1199,4 +1199,44 @@ $(document).ready(function(){
     } );
 });
 
+  //function alerta para eliminar 
+  function alertEliminar(){
+    var url=$(".eliminar").attr('data-url');
+    Swal.fire({
+        title: '¿Esta seguro de elimar?',
+        text: "¡No volveras a usar este producto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Si, Borrarlo!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarproc(url);
+        }
+      })
+}
 
+//fuction para eliminar registro
+
+function eliminarproc(url){
+    $.ajax({
+        url:url,
+        success:function() { 
+        var table = $('#tblistado').DataTable();
+        table.ajax.reload(); 
+            Swal.fire(
+                '¡Eliminado!',
+                'El producto fue eliminado correctamente.',
+                'success'
+              )
+            AutoReload();
+         }
+    });
+}
+
+function AutoReload() {
+    setTimeout(function() {
+        window.location.reload();
+    },2000);
+}
