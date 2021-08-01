@@ -11,7 +11,7 @@
 </div>
 
 <div class="card" bgcolor="red">
-	<div class="card-body">
+    <div class="card-body">
 
     <div class="row">
 
@@ -34,6 +34,7 @@
             <tr>
                 <th>Serial</th>
                 <th>Activo Fijo</th>
+                <th>Estado</th>
                 <th>Tipo Equipo</th>
                 <th> <center>ACCIONES</center></th>
             </tr>
@@ -41,17 +42,27 @@
         <tbody>
         <?php
         while ($equi=mysqli_fetch_assoc($equipo)) {
+            $id=$equi['id'];
             echo "<tr>";
             echo "<td>".$equi['serial']."</td>";
             echo "<td>".$equi['activo_fijo']."</td>";
+            if($equi['id_estado']== 2){
+                echo "<td><span style='background-color:#C91506;color: #FFFFFF;'>Inhabilitado</span></td>";
+            }else{
+                echo "<td><span style='background-color:#0F61A4;color: #FFFFFF;'>".$equi['nombre_estado']."</span></td>";
+            }
             echo "<td  width='15%'>".$equi['desc_tipo_equipo']."</td>";
-            echo "<td width:37%> <center>
-           <button  class='btn btn-warning' id='botoncito' data-url='".getUrl("Equipo","Equipo","Editar",array("id"=>$equi['id']),"ajax")."'>Editar</button>
+            echo "<td width:37%> <center>";
 
-                <button class='btn btn-danger eliminar'  onclick='alertEliminar();' data-url='".getUrl("Equipo","Equipo","Eliminar",array("id"=>$equi['id']),"ajax")."'>Eliminar</button>
+            echo " <button  class='btn btn-warning' id='botoncito' data-url='".getUrl("Equipo","Equipo","Editar",array("id"=>$equi['id']),"ajax")."'>Editar</button>";
 
-                <a href='".getUrl("Equipo","Equipo","detalle",
-				array("id"=>$equi['id']))."' class='btn btn-info'>Detalles</a> </center>
+           if($equi['id_estado']== 2){
+                echo " <button class='btn btn-success' onclick='alertEliminar($id,1);'>Habilitar</button> "; 
+           }else{
+                echo " <button class='btn btn-danger' onclick='alertEliminar($id,0);'>Inhabilitar</button> ";
+           }
+            echo " <a href='".getUrl("Equipo","Equipo","detalle",
+                array("id"=>$equi['id']))."' class='btn btn-info'>Detalles</a> </center>
             </td>";
         }
         ?>

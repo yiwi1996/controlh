@@ -118,7 +118,7 @@ class EquipoController{
         
         $obj=new EquipoModel();
         
-        $sql="SELECT e.id,t.desc_tipo_equipo,e.serial,e.activo_fijo,e.caracteristicas,e.usuario FROM equipos e,tipo_equipo t WHERE  t.id=e.tipo_equipo AND e.id=e.id ORDER BY id ASC";
+        $sql="SELECT e.id,t.desc_tipo_equipo,e.serial,e.activo_fijo,e.caracteristicas,e.usuario,es.id_estado,es.nombre_estado FROM equipos e,tipo_equipo t, estado es WHERE es.id_estado=e.id_estado AND t.id=e.tipo_equipo AND e.id=e.id ORDER BY id ASC";
         
         
         
@@ -143,12 +143,17 @@ class EquipoController{
     public function Eliminar(){
         $obj=new EquipoModel();
         $id=$_GET['id'];
+        $accion=$_GET['accion'];
+
+        if($accion==0){
+            $sql="UPDATE equipos SET id_estado = 2 WHERE id = $id";
+        }else{
+            $sql="UPDATE equipos SET id_estado = 1 WHERE id = $id";
+        }
+     echo($sql);
+        $eliminar=$obj->consult($sql);
         
-        $sql="DELETE FROM equipos WHERE id=$id";
-        
-        $eliminar=$obj->delete($sql);
-        
-        echo $sql;
+       
     }
     
     public function detalle() {

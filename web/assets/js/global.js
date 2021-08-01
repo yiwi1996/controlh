@@ -1200,36 +1200,63 @@ $(document).ready(function(){
 });
 
   //function alerta para eliminar 
-  function alertEliminar(){
-    var url=$(".eliminar").attr('data-url');
+  function alertEliminar(id,accion){
+    id1=id;
+    if(accion==0){
     Swal.fire({
-        title: '¿Esta seguro de elimar?',
+        
+        title: '¿Esta seguro de Inhabilitar?',
         text: "¡No volveras a usar este producto!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: '¡Si, Borrarlo!'
+        confirmButtonText: '¡Si, Inhabilitar!'
       }).then((result) => {
         if (result.isConfirmed) {
-            eliminarproc(url);
+            eliminarproc(id1,accion);
         }
       })
+    }else{
+        Swal.fire({
+        
+            title: '¿Esta seguro de Habilitar?',
+            text: "¡volveras a usar este producto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Si, Habilitar!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                eliminarproc(id1,accion);
+            }
+          })
+    }
 }
 
 //fuction para eliminar registro
 
-function eliminarproc(url){
+function eliminarproc(id,accion){
     $.ajax({
-        url:url,
+        url:'ajax.php?modulo=Equipo&controlador=Equipo&funcion=Eliminar',
+        data:"id="+id+"&accion="+accion,
         success:function() { 
         var table = $('#tblistado').DataTable();
         table.ajax.reload(); 
+        if(accion==0){
             Swal.fire(
-                '¡Eliminado!',
-                'El producto fue eliminado correctamente.',
+                'Inhabilitado!',
+                'El producto fue Inhabilitado correctamente.',
                 'success'
               )
+            }else{
+                Swal.fire(
+                    'Habilitado!',
+                    'El producto fue Habilitado correctamente.',
+                    'success'
+                  )
+            }
             AutoReload();
          }
     });
@@ -1238,5 +1265,5 @@ function eliminarproc(url){
 function AutoReload() {
     setTimeout(function() {
         window.location.reload();
-    },2000);
+    },1000);
 }
