@@ -154,7 +154,7 @@
             <span class="form-control " ><?php echo $equipo['Fecha_fin_garantia'] ?></span>
 
         </div>
-    <?php if($equipo['id_sis_operativo']!='' || $equipo['id_sis_operativo']!=NULL){ ?> 
+    <?php if(isset($equipo['id_sis_operativo'])){ ?> 
 
         <div class="form-group col-md-4"<?php if($equipo['id_sis_operativo']==4 || $equipo['id_sis_operativo']==NULL){?> style="display: none;" <?php } ?> >
             <label>Sistema Operativo:</label>
