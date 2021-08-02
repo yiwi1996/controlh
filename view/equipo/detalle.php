@@ -154,7 +154,8 @@
             <span class="form-control " ><?php echo $equipo['Fecha_fin_garantia'] ?></span>
 
         </div>
-   
+    <?php if($equipo['id_sis_operativo']!='' || $equipo['id_sis_operativo']!=NULL){ ?> 
+
         <div class="form-group col-md-4"<?php if($equipo['id_sis_operativo']==4 || $equipo['id_sis_operativo']==NULL){?> style="display: none;" <?php } ?> >
             <label>Sistema Operativo:</label>
             <span class="form-control " ><?php echo $equipo['desc_operativo'] ?></span>
@@ -190,7 +191,7 @@
             <span class="form-control " ><?php echo $equipo['licen_antivirus'] ?></span>
 
         </div>
-    
+    <?php }?>
         <div <?php if($equipo['tipo_equipo']==1){?> class="form-group col-md-6"<?php }else if($equipo['tipo_equipo']==2 || $equipo['tipo_equipo']==5){ ?>  class="form-group col-md-6"<?php }else if($equipo['tipo_equipo']==3 || $equipo['tipo_equipo']==4){?>class="form-group col-md-6"<?php }else{?>class="form-group col-md-3"<?php }?>>
             <label>Estado del Equipo:</label>
             <span class="form-control " ><?php echo $equipo['nombre_estado'] ?></span>
