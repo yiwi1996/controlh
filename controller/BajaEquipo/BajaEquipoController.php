@@ -368,7 +368,7 @@ class BajaEquipoController{
         $equi=$obj->consult($sql);
         $equipo=mysqli_fetch_assoc($equi);
         
-        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$id_baja['nombre']." OR nombre_empleado=".$id_baja['nombre']."";
+      /*   $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea='".$id_baja['nombre']."' OR nombre_empleado='".$id_baja['nombre']."'"; */
         
         $emple=$obj->consult($sql);
         $empleado=mysqli_fetch_assoc($emple); 

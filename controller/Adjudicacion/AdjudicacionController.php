@@ -260,30 +260,30 @@ class AdjudicacionController{
         $equi=$obj->consult($sql);
         $equipo=mysqli_fetch_assoc($equi);
         
-        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjudicacion['nombre']." OR nombre_empleado=".$adjudicacion['nombre']."";
+        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea='".$adjudicacion['nombre']."' OR nombre_empleado='".$adjudicacion['nombre']."'";
+      
+        $emple1=$obj->consult($sql);
+        $empleado=mysqli_fetch_assoc($emple1); 
+        
+        $sql1="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea='".$adjudicacion['recibido']."' OR nombre_empleado='".$adjudicacion['recibido']."'";
+        
+        $emple=$obj->consult($sql1);
+        $empleado1=mysqli_fetch_assoc($emple); 
+        
+        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea='".$adjudicacion['entregado']."' OR nombre_empleado='".$adjudicacion['entregado']."'";
         
         $emple=$obj->consult($sql);
-        $empleado=mysqli_fetch_assoc($emple); 
+        $empleado2=mysqli_fetch_assoc($emple); 
         
-        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjudicacion['recibido']." OR nombre_empleado=".$adjudicacion['recibido']."";
+        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea='".$adjudicacion['copia']."' OR nombre_empleado='".$adjudicacion['copia']."'";
         
-        $emple1=$obj->consult($sql);
-        $empleado1=mysqli_fetch_assoc($emple1); 
+        $emple=$obj->consult($sql);
+        $empleado3=mysqli_fetch_assoc($emple); 
         
-        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjudicacion['entregado']." OR nombre_empleado=".$adjudicacion['entregado']."";
+        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea='".$adjudicacion['contabilizado']."' OR nombre_empleado='".$adjudicacion['contabilizado']."'";
         
-        $emple2=$obj->consult($sql);
-        $empleado2=mysqli_fetch_assoc($emple2); 
-        
-        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjudicacion['copia']." OR nombre_empleado=".$adjudicacion['copia']."";
-        
-        $emple3=$obj->consult($sql);
-        $empleado3=mysqli_fetch_assoc($emple3); 
-        
-        $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjudicacion['contabilizado']." OR nombre_empleado=".$adjudicacion['contabilizado']."";
-        
-        $emple4=$obj->consult($sql);
-        $empleado4=mysqli_fetch_assoc($emple4); 
+        $emple=$obj->consult($sql);
+        $empleado4=mysqli_fetch_assoc($emple); 
         
         include_once '../view/adjudicacion/detalle.php';
     }
