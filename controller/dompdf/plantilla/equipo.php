@@ -1,6 +1,5 @@
 <?php
-
-$html .= '<html>';
+$html = '<html>';
 $html .= '<head>';
 $html .= '<meta charset="utf-8">';
 $html.='<img src="../web/img/mercapaba.PNG" width="160px" >';
