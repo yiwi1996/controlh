@@ -22,8 +22,12 @@ class IntervencionController{
         $activo=$_POST['activo'];
         $serial=$_POST['serial'];
         $descripcion=$_POST['descripcion'];
-        $pre=$_POST['pre'];
-        $corr=$_POST['corr'];
+        if($_POST['pre']!=''){
+            $pre=$_POST['pre'];
+        }
+        if($_POST['corr']!=''){
+            $corr=$_POST['corr'];
+        }
         $detalle=$_POST['detalle'];
         $realizado=$_POST['realizado'];
         $valor=$_POST['valor'];

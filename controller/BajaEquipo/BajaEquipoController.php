@@ -167,7 +167,7 @@ class BajaEquipoController{
 
             $adjud=mysqli_fetch_assoc($adjudicacion[$i]);
 
-            $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjud['nombre']." OR nombre_empleado=".$adjud['nombre']."";
+            $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjud['nombre']." OR nombre_empleado='".$adjud['nombre']."'";
         
             $emple=$obj->consult($sql);
             $empleado1[0]=mysqli_fetch_assoc($emple); 
@@ -177,7 +177,7 @@ class BajaEquipoController{
             $baja1=$obj->insert($sql);
             $baj=mysqli_fetch_assoc($baja1); 
 
-            $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$baj['elaborado_baja']." OR nombre_empleado=".$baj['elaborado_baja']."";
+            $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$baj['elaborado_baja']." OR nombre_empleado='".$baj['elaborado_baja']."'";
 
             $emple=$obj->consult($sql);
             $empleado1[1]=mysqli_fetch_assoc($emple); 
