@@ -90,8 +90,12 @@ class RemisionController{
         $numero=$_POST['numero'];
         $fecha=$_POST['Fecha'];
         $hora=$_POST['hora'];
-        $temporal=$_POST['temporal'];
-        $definitivo=$_POST['definitivo'];
+        if($_POST['temporal']!=''){
+            $temporal=$_POST['temporal'];
+        } 
+        if($_POST['definitivo']!=''){
+            $definitivo=$_POST['definitivo'];
+        }
         $fecha_devo=$_POST['fecha_devo'];
         $despachado=$_POST['despachado'];
         $transportado=$_POST['transportado'];

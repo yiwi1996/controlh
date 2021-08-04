@@ -85,7 +85,7 @@ while($info=mysqli_fetch_assoc($resultado)){
 }
 
 setlocale(LC_TIME,"es_ES");
-$html .= '<html>';
+$html = '<html>';
 $html .= '<head>';
 $html .= '<meta charset="utf-8">';
 $html.='<table style="width: 600px;">';
