@@ -22,10 +22,10 @@ class IntervencionController{
         $activo=$_POST['activo'];
         $serial=$_POST['serial'];
         $descripcion=$_POST['descripcion'];
-        if($_POST['pre']!=''){
+        if(isset($_POST['pre'])){
             $pre=$_POST['pre'];
         }
-        if($_POST['corr']!=''){
+        if(isset($_POST['corr'])){
             $corr=$_POST['corr'];
         }
         $detalle=$_POST['detalle'];
@@ -51,12 +51,12 @@ class IntervencionController{
         
         $empleado=array();
        
-        if($pre!=NULL){
+        if(isset($pre)){
             $pre=1;
         }else{
             $pre=0;
         }
-        if($corr!=NULL){
+        if(isset($corr)){
             $corr=1;
         }else{
             $corr=0;

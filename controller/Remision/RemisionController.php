@@ -90,11 +90,12 @@ class RemisionController{
         $numero=$_POST['numero'];
         $fecha=$_POST['Fecha'];
         $hora=$_POST['hora'];
-        if($_POST['temporal']!=''){
+        if(isset($_POST['temporal'])){
             $temporal=$_POST['temporal'];
         } 
-        if($_POST['definitivo']!=''){
+        if(isset($_POST['definitivo'])){
             $definitivo=$_POST['definitivo'];
+          
         }
         $fecha_devo=$_POST['fecha_devo'];
         $despachado=$_POST['despachado'];
@@ -113,12 +114,13 @@ class RemisionController{
         $observacion=$_POST['observacion'];
         $num_pdf=$obj->autoincrement("remision","id_remision");
         
-        if($temporal!=NULL){
+        if(isset($temporal)){
             $temporal=1;
         }else{
             $temporal=0;
+            dd($temporal);
         }
-        if($definitivo!=NULL){
+        if(isset($definitivo)){
             $definitivo=1;
         }else{
             $definitivo=0;
@@ -166,14 +168,15 @@ class RemisionController{
             $sql="SELECT nombre,descripcion,fecha_entrega,valor FROM adjudicacion WHERE serial='".$serie[$i]."'";
 
             $adjudicacion=$obj->insert($sql);
-
+            if(mysqli_num_rows($adjudicacion)>0){
             $adjud=mysqli_fetch_assoc($adjudicacion);
 
-            $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjud['nombre']." OR nombre_empleado=".$adjud['nombre']."";
+            $sql="SELECT nombre_empleado,cargo_empleado,area FROM empleado WHERE cedula_emplea=".$adjud['nombre']." OR nombre_empleado='".$adjud['nombre']."'";
         
             $emple=$obj->consult($sql);
             $empleado[0]=mysqli_fetch_assoc($emple); 
-            
+            }
+
             $sql="SELECT fecha_baja,elaborado_baja,descripcion,valor FROM baja WHERE serial_baja='".$serie[$i]."'";
 
             $baja=$obj->insert($sql);
