@@ -30,7 +30,7 @@
 </head>
   <body>
   <div class="container bg bg-sussecc border border-white rounded-lg shadow-lg p-3 mb-auto" style="margin-top: 12%; width: 30%">
-  <img src="img/login.jpeg" style="margin-top: 0%; width: 100%">
+  <img src="img/login.jpeg" style="margin-top: 0%; width: 530px; height: 150px;">
       <div class="container">
         <form class="login-form" method="post" action="<?php echo getUrl("Acceso","Acceso","postLogin",false,"ajax");?>">
           <div class="login-wrap">
