@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- Formulario de búsqueda -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPLEMENTOS DEPORTIVOS</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <footer>
+    <!-- Inicio del menú de navegación -->
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="../html/index.html">IMPLEMENTOS DEPORTIVOS</a>
+            <button class="navbar-toggler" onclick="toggleMenu()">☰</button>
+            <div id="navbarMenu" class="navbar-menu">
+                <ul>
+                    <li><a href="../html/index.html">Home</a></li>
+                    <li><a href="../html/registro.html">Registro de Productos</a></li>
+                    <li><a href="../html/indicaciones.html">Indicaciones</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</footer>
+    <!-- Fin del menú -->
+  <main>
+
+
+    <section class="search-section">
+        <h2>Buscar Producto</h2>
+        <input type="text" id="searchInput" placeholder="Buscar producto" onkeyup="searchProducts()">
+        <div id="searchResults"></div>
+    </section>
+
+    <section class="categories">
+        <h1>IMPLEMENTOS DEPORTIVOS</h1>
+        <div class="category-container">
+            <div class="category">
+                <img src="../img/balones.jpg" alt="Deportes de Pelota">
+                <h5>Deportes de Pelota</h5>
+                <p>precio</p>
+                <p>descripcion</p>
+                <a href="../html/indicaciones.html" class="btn">Ir a Ver</a>
+            </div>
+            <div class="category">
+                <img src="../img/raqueta.jpg" alt="Deportes de Raqueta">
+                <h5>Deportes de Raqueta</h5>
+                <a href="../html/indicaciones.html" class="btn">Ir a Ver</a>
+            </div>
+            <div class="category">
+                <img src="../img/entrenamiento.jpg" alt="Entrenamiento y Fitness">
+                <h5>Entrenamiento y Fitness</h5>
+                <a href="../html/indicaciones.html" class="btn">Ir a Ver</a>
+            </div>
+            <div class="category">
+                <img src="../img/ciclismo.jpeg" alt="Deportes de Ciclismo">
+                <h5>Deportes de Ciclismo</h5>
+                <a href="../html/indicaciones.html" class="btn">Ir a Ver</a>
+            </div>
+            <div class="category">
+                <img src="../img/proteccion.jpg" alt="Protección Deportiva">
+                <h5>Protección Deportiva</h5>
+                <a href="../html/indicaciones.html" class="btn">Ir a Ver</a>
+            </div>
+            <div class="category">
+                <img src="../img/acuatico.jpg" alt="Deportes Acuáticos">
+                <h5>Deportes Acuáticos</h5>
+                <a href="../html/indicaciones.html" class="btn">Ir a Ver</a>
+            </div>
+            <div class="category">
+                <img src="../img/combate.jpg" alt="Deportes de Combate">
+                <h5>Deportes de Combate</h5>
+                <a href="../html/indicaciones.html" class="btn">Ir a Ver</a>
+            </div>
+            <div class="category">
+                <img src="../img/patinaje.jpg" alt="Patinaje">
+                <h5>Patinaje</h5>
+                <a href="../html/indicaciones.html" class="btn">Ir a Ver</a>
+            </div>
+            <div class="category">
+                <img src="../img/golf.jpg" alt="Golf">
+                <h5>Golf</h5>
+                <a href="../html/indicaciones.html" class="btn">Ir a Ver</a>
+            </div>
+            <div class="category">
+                <img src="../img/ropa.png" alt="Ropa y Calzado Deportivo">
+                <h5>Ropa y Calzado Deportivo</h5>
+                <a href="../html/indicaciones.html" class="btn">Ir a Ver</a>
+            </div>
+            <div class="category">
+                <img src="../img/generales.jpg" alt="Accesorios Generales">
+                <h5>Accesorios Generales</h5>
+                <a href="../html/indicaciones.html" class="btn">Ir a Ver</a>
+            </div>
+        </div>
+    </section>
+
+</main>
+    <script>
+        // Función para alternar el menú en pantallas pequeñas
+        function toggleMenu() {
+            var menu = document.getElementById("navbarMenu");
+            menu.classList.toggle("active");
+        }
+    </script>
+</body>
+
+</html>

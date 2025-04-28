@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Producto</title>
+    <link rel="stylesheet" href="../css/styles.css"> <!-- Si tienes un archivo CSS -->
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="../html/index.html">IMPLEMENTOS DEPORTIVOS</a>
+            <button class="navbar-toggler" onclick="toggleMenu()">☰</button>
+            <div id="navbarMenu" class="navbar-menu">
+                <ul>
+                    <li><a href="../html/index.html">Home</a></li>
+                    <li><a href="../html/registro.html">Registro de Productos</a></li>
+                    <li><a href="../html/indicaciones.html">Indicaciones</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="form-section">
+        <h1>Registro de Producto</h1>
+        <form id="productForm">
+            <label for="productName">Nombre del Producto:</label>
+            <input type="text" id="productName" name="productName" required>
+
+            <label for="category">Categoría:</label>
+            <select id="category" name="category" required>
+                <option value="balones">Deportes de Pelota</option>
+                <option value="raquetas">Deportes de Raqueta</option>
+                <option value="entrenamiento">Entrenamiento y Fitness</option>
+                <option value="ciclismo">Deportes de Ciclismo</option>
+                <option value="proteccion">Protección Deportiva</option>
+                <option value="acuatico">Deportes Acuáticos</option>
+                <option value="combate">Deportes de Combate</option>
+                <option value="patinaje">Patinaje</option>
+                <option value="golf">Golf</option>
+                <option value="ropa">Ropa y Calzado Deportivo</option>
+                <option value="accesorios">Accesorios Generales</option>
+            </select>
+
+            <label for="price">Precio:</label>
+            <input type="number" id="price" name="price" required>
+
+            <label for="description">Descripción:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+
+            <label for="image">Imagen del Producto (URL):</label>
+            <input type="url" id="image" name="image" required>
+
+            <button type="submit">Registrar Producto</button>
+        </form>
+    </section>
+    <script> //registro de productos
+    function toggleMenu() {
+        var menu = document.getElementById("navbarMenu");
+        menu.classList.toggle("active");
+    }
+   
+    // Función para manejar el envío del formulario
+    document.getElementById("productForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevenir el comportamiento por defecto de envío del formulario
+    
+        // Obtener los valores de los campos del formulario
+        const productName = document.getElementById("productName").value;
+        const category = document.getElementById("category").value;
+        const price = document.getElementById("price").value;
+        const description = document.getElementById("description").value;
+        const image = document.getElementById("image").value;
+    
+        // Crear un objeto con los datos del producto
+        const product = {
+            name: productName,
+            category: category,
+            price: parseFloat(price),
+            description: description,
+            image: image
+        };
+    
+        // Almacenar el producto en localStorage
+        let products = JSON.parse(localStorage.getItem("products")) || []; // Recuperar productos existentes o inicializar arreglo vacío
+        products.push(product); // Agregar el nuevo producto
+        localStorage.setItem("products", JSON.stringify(products)); // Guardar el arreglo actualizado en localStorage
+    
+        // Mostrar un mensaje de éxito
+        alert("Producto registrado exitosamente.");
+    
+        // Limpiar el formulario después de enviar
+        document.getElementById("productForm").reset();
+    });
+</script>
+    
+</body>
+
+</html>
