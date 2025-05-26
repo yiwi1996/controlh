@@ -47,8 +47,14 @@
             <label for="price">Precio:</label>
             <input type="number" id="price" name="price" required>
 
-            <label for="description">Descripción:</label>
-            <textarea id="description" name="description" rows="4" required></textarea>
+            <label for="codigo">Codigo:</label>
+            <input type="text" id="codigo" name="codigo" required>
+
+            <label for="marca">Marca:</label>
+            <input type="text" id="marca" name="marca" required>
+
+            <label for="color">Color:</label>
+            <input type="text" id="color" name="color" required>
 
             <label for="image">Imagen del Producto (URL):</label>
             <input type="url" id="image" name="image" required>
@@ -56,45 +62,47 @@
             <button type="submit">Registrar Producto</button>
         </form>
     </section>
-    <script> //registro de productos
-    function toggleMenu() {
-        var menu = document.getElementById("navbarMenu");
-        menu.classList.toggle("active");
-    }
-   
-    // Función para manejar el envío del formulario
-    document.getElementById("productForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevenir el comportamiento por defecto de envío del formulario
-    
-        // Obtener los valores de los campos del formulario
-        const productName = document.getElementById("productName").value;
-        const category = document.getElementById("category").value;
-        const price = document.getElementById("price").value;
-        const description = document.getElementById("description").value;
-        const image = document.getElementById("image").value;
-    
-        // Crear un objeto con los datos del producto
-        const product = {
-            name: productName,
-            category: category,
-            price: parseFloat(price),
-            description: description,
-            image: image
-        };
-    
-        // Almacenar el producto en localStorage
-        let products = JSON.parse(localStorage.getItem("products")) || []; // Recuperar productos existentes o inicializar arreglo vacío
-        products.push(product); // Agregar el nuevo producto
-        localStorage.setItem("products", JSON.stringify(products)); // Guardar el arreglo actualizado en localStorage
-    
-        // Mostrar un mensaje de éxito
-        alert("Producto registrado exitosamente.");
-    
-        // Limpiar el formulario después de enviar
-        document.getElementById("productForm").reset();
-    });
-</script>
-    
+    <script> 
+    //registro de productos
+        function toggleMenu() {
+            var menu = document.getElementById("navbarMenu");
+            menu.classList.toggle("active");
+        }
+
+        // Función para manejar el envío del formulario
+        document.getElementById("productForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevenir el comportamiento por defecto de envío del formulario
+
+            // Obtener los valores de los campos del formulario
+            const productName = document.getElementById("productName").value;
+            const category = document.getElementById("category").value;
+            const price = document.getElementById("price").value;
+            const codigo = document.getElementById("codigo").value;
+            const image = document.getElementById("image").value;
+
+            // Crear un objeto con los datos del producto
+            const producto = {
+                name: productName,
+                category: category,
+                price: parseFloat(price),
+                description: description,
+                image: image
+            };
+
+            // Almacenar el producto en localStorage
+            let product = JSON.parse(localStorage.getItem("producto")) || []; // Recuperar productos existentes o inicializar arreglo vacío
+            product.push(producto); // Agregar el nuevo producto
+            localStorage.setItem("producto", JSON.stringify(product)); // Guardar el arreglo actualizado en localStorage
+
+            // Mostrar un mensaje de éxito
+            alert("Producto registrado exitosamente.");
+
+
+            // Limpiar el formulario después de enviar
+            document.getElementById("productForm").reset();
+        });
+    </script>
+
 </body>
 
 </html>
